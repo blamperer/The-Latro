@@ -1,0 +1,244 @@
+return {
+	descriptions = {
+		Back = {
+			b_thel_completionist = {
+				name = "Completionist Deck",
+				text = {
+					"Get an {C:eternal}Eternal {C:dark_edition}Negative{} copy",
+					"of a Joker without a",
+					"sticker for {C:attention}this stake{}",
+				},
+			},
+		},
+		-- Blind={},
+		-- Edition={},
+		-- Enhanced={},
+		Joker = {
+			j_thel_misfortune = {
+				name = "Misfortune",
+				text = {
+					"Played {C:attention}Lucky{} cards give",
+					"{X:mult,C:white}X#1#{} Mult while none",
+					"have activated",
+				},
+			},
+			j_thel_aries = {
+				name = "Aries",
+				text = {
+					"{X:mult,C:white}X#1#{} Mult while fighting",
+					"a {C:attention}Boss Blind",
+				},
+			},
+			j_thel_taurus = {
+				name = "Taurus",
+				text = {
+					"This Joker gains {X:mult,C:white}X#1#{} Mult",
+					"for every {C:money}$#2#{} spent in the Shop",
+					"{C:inactive}(Currently {X:mult,C:white}X#3#{C:inactive} Mult)",
+				},
+			},
+			j_thel_gemini = {
+				name = "Gemini",
+				text = {
+					"This Joker flips between giving",
+					"{C:chips}+#1#{} Chips or {X:mult,C:white}X#2#{} Mult if",
+					"played hand contains a {C:attention}Two Pair{}",
+				},
+			},
+			j_thel_cancer = {
+				name = "Cancer",
+				text = {
+					"This Joker gains {C:mult}+#1#{} Mult",
+					"when a {C:attention}Glass Card{} scores",
+					"and {C:attention}resets{} if one breaks",
+					"{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult)",
+				},
+			},
+			j_thel_leo = {
+				name = "Leo",
+				text = {
+					"{C:attention}Lucky Cards{} which trigger",
+					"also give {C:chips}+#1#{} Chips",
+				},
+			},
+			j_thel_virgo = {
+				name = "Virgo",
+				text = {
+					"Played {C:attention}Queens{}",
+					"give {X:mult,C:white}X#1#{} Mult",
+				},
+			},
+			j_thel_libra = {
+				name = "Libra",
+				text = {
+					"Played hands with exactly",
+					"{C:attention}two suits{} give",
+					"{C:chips}+#1#{} Chips and {C:mult}+#2#{} Mult",
+				},
+			},
+			j_thel_scorpio = {
+				name = "Scorpio",
+				text = {
+					"{C:green}#1# in #2#{} chance to add",
+					"a {C:money}Gold Seal{} to {C:attention}1{} selected card",
+					"after using {C:attention}any consumable",
+					"{C:inactive,S:0.8}(Won't overwrite)",
+				},
+			},
+			j_thel_sagittarius = {
+				name = "Sagittarius",
+				text = {
+					"If all scored cards are {C:spades}Spades{},",
+					"{C:green}#1# in #2#{} chance for each",
+					"one to become {C:dark_edition}Foil",
+				},
+			},
+			j_thel_capricorn = {
+				name = "Capricorn",
+				text = {
+					"Retrigger all",
+					"played {C:attention}Stone Cards",
+				},
+			},
+			j_thel_aquarius = {
+				name = "Aquarius",
+				text = {
+					"This Joker gains {C:chips}+#1#{} Chips for",
+					"each played {C:chips}Bonus Card{}",
+					"{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)",
+				},
+			},
+			j_thel_pisces = {
+				name = "Pisces",
+				text = {
+					"This Joker gains {C:chips}+#1#{} Chips",
+					"for every {C:attention}Tag{} used",
+					"{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)",
+				},
+			},
+			j_thel_ophiuchus = {
+				name = "Ophiuchus",
+				text = {
+					"{C:dark_edition}Polychrome{} Jokers give",
+					"{X:mult,C:white}X#1#{} Mult",
+				},
+			},
+			j_thel_calculator = {
+				name = "Calculator",
+				text = {
+					"If played hand is a {C:attention}Pair",
+					"or {C:attention}Four of a Kind{} of",
+					"a {C:attention}power of two{},",
+					"combine them after scoring",
+					"{S:0.8,C:inactive}(Stops at {S:0.8,C:attention}#3#{S:0.8,C:inactive})",
+				},
+			},
+			j_thel_blank_joker = {
+				name = "Blank Joker",
+				text = {
+					"{C:inactive}Does nothing?",
+				},
+			},
+			j_thel_blank_joker_alt = {
+				name = "Antijoker",
+				text = {
+					"+#1# Joker slots and",
+					"one more every #2# rounds",
+					"{C:inactive}({C:attention}#3#{C:inactive}/#2#)",
+				},
+			},
+			j_thel_terminal = {
+				name = "Terminal",
+				text = {
+					"{C:green}#1# in #2#{} chance to",
+					"retrigger other Jokers",
+				},
+			},
+			j_thel_chipfinity = {
+				name = "Chipfinity",
+				text = {
+					"This Joker gains {C:chips}+#1#{} Chip",
+					"{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)",
+				},
+			},
+			j_thel_uppydowny = {
+				name = "Uppy-Downy",
+				text = {
+					"The {C:attention}last{} played card",
+					"steals one rank from",
+					"the {C:attention}first{} played card",
+				},
+			},
+			j_thel_helper_robot = {
+				name = "Helper Robot",
+				text = {
+					"{C:blue}+1{} free hand,",
+					"{C:attention}played for you!",
+					'{B:1,V:2} "#1#" ^v^ ',
+				},
+			},
+			j_thel_normalsize = {
+				name = "Normal-Sized Joker",
+				text = { "{C:chips}+4{} Mult?" },
+			},
+			j_thel_quest_log = {
+				name = "Quest Log",
+				text = {
+					"Earn {C:money}$#1#{} by playing a card",
+					"of the {C:important}indicated type",
+					"{C:inactive}(Requirement changes on payout)",
+				},
+			},
+			j_thel_quest_log_rank = {
+				name = "Quest Log",
+				text = {
+					"Earn {C:money}$#1#{} if you play",
+					"a card of rank {V:1}#2#",
+					"{C:inactive}(Requirement changes on payout)",
+				},
+			},
+			j_thel_quest_log_suit = {
+				name = "Quest Log",
+				text = {
+					"Earn {C:money}$#1#{} if you play",
+					"a card with {V:1}#2#{} suit",
+					"{C:inactive}(Requirement changes on payout)",
+				},
+			},
+		},
+		-- Other={},
+		-- Planet={},
+		-- Spectral={},
+		-- Stake={},
+		-- Tag={},
+		-- Tarot={},
+		-- Voucher={},
+	},
+	misc = {
+		-- achievement_descriptions={},
+		-- achievement_names={},
+		-- blind_states={},
+		challenge_names = {
+			autopilot = "Autopilot",
+		},
+		-- collabs={},
+		dictionary = {
+			k_gilded_ex = "Gilded!",
+			k_knapped_ex = "Knapped!",
+		},
+		-- high_scores={},
+		-- labels={},
+		-- poker_hand_descriptions={},
+		-- poker_hands={},
+		-- quips={},
+		-- ranks={},
+		-- suits_plural={},
+		-- suits_singular={},
+		-- tutorial={},
+		v_dictionary = {
+			indicate_rank = "Rank: #1#",
+			indicate_suit = "Suit: #1#",
+		},
+		-- v_text={},
+	},
+}

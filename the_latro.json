@@ -1,0 +1,16 @@
+{
+	"id": "the_latro",
+	"name": "The Latro",
+	"display_name": "The Latro",
+	"author": ["blamperer"],
+	"description": "A sandbox of ideas, with little in the way of theming.",
+	"prefix": "thel",
+	"main_file": "main.lua",
+	"priority": 0,
+	"badge_colour": "ce4543",
+	"badge_text_colour": "86d2ff",
+	"version": "1.0.0",
+	"dependencies": [
+		"Steamodded (>=1.0.0~BETA-0827-STEAMODDED)"
+	]
+}
