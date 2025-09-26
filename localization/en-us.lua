@@ -219,7 +219,7 @@ return {
 		-- achievement_names={},
 		-- blind_states={},
 		challenge_names = {
-			autopilot = "Autopilot",
+			c_thel_autopilot = "Autopilot",
 		},
 		-- collabs={},
 		dictionary = {
