@@ -1,1 +1,0 @@
-magick mogrify -scale 200%% -path 2x/ 1x/*.png
