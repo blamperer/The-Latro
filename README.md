@@ -7,6 +7,6 @@ A mod with little in the way of theming. Not explicitly balanced, but not too un
 
 -----
 Contains:
-- 20 Jokers
+- 21 Jokers
 - 1 Deck
 - 1 Challenge

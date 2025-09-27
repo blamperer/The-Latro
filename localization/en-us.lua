@@ -205,6 +205,15 @@ return {
 					"{C:inactive}(Requirement changes on payout)",
 				},
 			},
+			j_thel_interloper = {
+				name = "Interloper",
+				text = {
+					'When played hand is an',
+					'{C:attention}"X of a Kind"{}, add a {C:attention}random',
+					'{C:attention}card{} of the {C:attention}same rank{}',
+					'and {C:blue}score it{} as well'
+				}
+			},
 		},
 		-- Other={},
 		-- Planet={},

@@ -397,7 +397,7 @@ SMODS.Joker({
 						key = "indicate_suit",
 						vars = { localize(card.ability.extra.suit_in_question, "suits_plural") },
 					}),
-					card = card
+					card = card,
 				}
 			elseif
 				card.ability.extra.quest_type == "suit"
@@ -411,8 +411,63 @@ SMODS.Joker({
 						key = "indicate_rank",
 						vars = { localize(card.ability.extra.rank_in_question, "ranks") },
 					}),
-					card = card
+					card = card,
 				}
+			end
+		end
+	end,
+})
+
+-- Interloper
+SMODS.Joker({
+	key = "interloper",
+	rarity = 2,
+	cost = 5,
+	atlas = "the_jokers",
+	pos = { x = 2, y = 1 },
+	discovered = true,
+	blueprint_compat = true,
+	eternal_compat = true,
+	perishable_compat = true,
+	calculate = function(self, card, context)
+		if context.before then -- and context.cardarea == G.play then
+			if
+				(not next(context.poker_hands["Full House"]))
+				and (
+					next(context.poker_hands["Five of a Kind"])
+					or next(context.poker_hands["Four of a Kind"])
+					or next(context.poker_hands["Three of a Kind"])
+				)
+			then
+				-- Get rank
+				local ranks = {}
+				for _, _c in ipairs(context.scoring_hand) do
+					local _r = _c.config.card.value
+					ranks[_r] = (ranks[_r] or 0) + 1
+				end
+				local rank, max = "2", 0
+				for _r, x in pairs(ranks) do
+					if x > max then
+						rank, max = _r, x
+					end
+				end
+				-- Make new card more enticing
+				local en_ed_seal = {
+					SMODS.poll_enhancement({ mod = 1.5 }),
+					SMODS.poll_edition({}),
+					SMODS.poll_seal({ mod = 1.25 }),
+				}
+				-- Interlope
+				local interloping_card = SMODS.add_card({
+					rank = rank,
+					enhancement = en_ed_seal[1],
+					edition = en_ed_seal[2],
+					seal = en_ed_seal[3],
+					area = G.play,
+				})
+				interloping_card:start_materialize({ G.C.DARK_EDITION })
+				highlight_card(interloping_card, 0, "up")
+				context.scoring_hand[#context.scoring_hand + 1] = interloping_card
 			end
 		end
 	end,
