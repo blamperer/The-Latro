@@ -294,6 +294,7 @@ SMODS.Joker({
 			end
 		end
 		if context.end_of_round and context.cardarea == G.jokers then
+			card.ability.extra.helping = false
 			card.ability.extra.activated = false
 		end
 	end,
