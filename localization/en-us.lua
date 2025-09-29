@@ -228,7 +228,16 @@ return {
 				text = {
 					"When a {C:attention}4{} is scored,",
 					"draw a card to hand",
-				}
+				},
+			},
+			j_thel_fifth_day = {
+				name = "Five Golden Rings",
+				text = {
+					"Each {C:attention}5{} held in hand",
+					"at end of round",
+					"lets you earn an",
+					"additional {C:money}$1{} of interest",
+				},
 			},
 		},
 		-- Other={},
