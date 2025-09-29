@@ -487,3 +487,4 @@ end
 
 -- Additional Joker files
 SMODS.load_file("data/zodiac_jokers.lua")()
+SMODS.load_file("data/christmas_jokers.lua")()
