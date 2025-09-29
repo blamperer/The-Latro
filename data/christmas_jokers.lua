@@ -24,6 +24,24 @@ SMODS.Atlas({
 -- ~ FIVE GOLDEN RIIIINGS ~
 
 -- Four Calling Birds
+SMODS.Joker {
+    key = "fourth_day",
+    rarity = 2,
+    cost = 5,
+    atlas = "12_days",
+    pos = {x = 3, y = 0},
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.individual then
+            if context.other_card:get_id() == 4 then
+                draw_card(G.deck, G.hand)
+            end
+        end
+    end
+}
 
 -- Three French Hens
 

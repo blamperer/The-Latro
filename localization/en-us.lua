@@ -223,6 +223,13 @@ return {
 					"{C:inactive}(Must have room)",
 				},
 			},
+			j_thel_fourth_day = {
+				name = "Four Calling Birds",
+				text = {
+					"When a {C:attention}4{} is scored,",
+					"draw a card to hand",
+				}
+			},
 		},
 		-- Other={},
 		-- Planet={},
