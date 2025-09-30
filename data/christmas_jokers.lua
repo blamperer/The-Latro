@@ -20,6 +20,48 @@ SMODS.Atlas({
 -- Seven Swans a-Swimming
 
 -- Six Geese a-Laying
+SMODS.Joker({
+	key = "sixth_day",
+	config = {
+		extra = {
+			sixes_scored = 0,
+		},
+	},
+	rarity = 2,
+	cost = 6,
+	atlas = "12_days",
+	pos = { x = 5, y = 0 },
+	discovered = true,
+	blueprint_compat = true,
+	eternal_compat = true,
+	perishable_compat = true,
+	loc_vars = function(self, info_queue, card)
+		return { vars = {
+			card.ability.extra.sixes_scored,
+		} }
+	end,
+	calculate = function(self, card, context)
+		if context.individual and not context.blueprint then
+			if context.other_card:get_id() == 6 then
+				card.ability.extra.sixes_scored = card.ability.extra.sixes_scored + 1
+			end
+		end
+		if context.end_of_round and not context.blueprint and card.ability.extra.sixes_scored > 0 then
+			SMODS.scale_card(card, {
+				ref_table = card.ability,
+				ref_value = "extra_value",
+				scalar_table = card.ability.extra,
+				scalar_value = "sixes_scored",
+				scaling_message = {
+					message = localize("k_val_up"),
+					colour = G.C.MONEY,
+				},
+			})
+			card:set_cost()
+			card.ability.extra.sixes_scored = 0
+		end
+	end,
+})
 
 -- ~ FIVE GOLDEN RIIIINGS ~
 SMODS.Joker({

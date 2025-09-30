@@ -239,6 +239,15 @@ return {
 					"additional {C:money}$1{} of interest",
 				},
 			},
+			j_thel_sixth_day = {
+				name = "Six Geese a-Laying",
+				text = {
+					"This Joker gains {C:money}$1",
+					"of {C:attention}sell value{} for",
+					"every {C:attention}6{} scored this round",
+					"{C:inactive}(Will gain {C:money}$#1#{C:inactive})"
+				}
+			},
 		},
 		-- Other={},
 		-- Planet={},
