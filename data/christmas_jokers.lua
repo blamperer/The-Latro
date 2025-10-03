@@ -18,6 +18,51 @@ SMODS.Atlas({
 -- Eight Maids a-Milking
 
 -- Seven Swans a-Swimming
+SMODS.Joker({
+	key = "seventh_day",
+	config = {
+		extra = {
+			needed_sevens = 2,
+		},
+	},
+	rarity = 2,
+	cost = 6,
+	atlas = "12_days",
+	pos = { x = 0, y = 1 },
+	discovered = true,
+	blueprint_compat = true,
+	eternal_compat = true,
+	perishable_compat = true,
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card.ability.extra.needed_sevens } }
+	end,
+	calculate = function(self, card, context)
+		if context.after then
+			local num_sevens = 0
+			for _, v in ipairs(context.scoring_hand) do
+				if v:get_id() == 7 and not v.debuff then
+					num_sevens = num_sevens + 1
+				end
+			end
+			if num_sevens >= card.ability.extra.needed_sevens then
+				local destroyable_cards = {}
+				for _, v in ipairs(G.hand.cards) do
+					if v:get_id() ~= 7 then
+						destroyable_cards[#destroyable_cards + 1] = v
+					end
+				end
+				if #destroyable_cards > 0 then
+					local dead_card = pseudorandom_element(destroyable_cards, "swan_attack", {})
+					SMODS.destroy_cards(dead_card)
+					return {
+						message = localize("k_attacked_ex"),
+						colour = G.C.RED,
+					}
+				end
+			end
+		end
+	end,
+})
 
 -- Six Geese a-Laying
 SMODS.Joker({

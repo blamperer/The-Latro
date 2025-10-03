@@ -248,6 +248,15 @@ return {
 					"{C:inactive}(Will gain {C:money}$#1#{C:inactive})",
 				},
 			},
+			j_thel_seventh_day = {
+				name = "Seven Swans a-Swimming",
+				text = {
+					"If played hand has",
+					"{C:attention}#1# or more{} scoring {C:attention}7s{},",
+					"destroy a random card",
+					"{C:red}without{} rank 7 in hand",
+				},
+			},
 		},
 		-- Other={},
 		-- Planet={},
@@ -268,6 +277,7 @@ return {
 		dictionary = {
 			k_gilded_ex = "Gilded!",
 			k_knapped_ex = "Knapped!",
+			k_attacked_ex = "Attacked!"
 		},
 		-- high_scores={},
 		-- labels={},
