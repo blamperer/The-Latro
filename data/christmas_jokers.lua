@@ -16,6 +16,58 @@ SMODS.Atlas({
 -- Nine Ladies Dancing
 
 -- Eight Maids a-Milking
+SMODS.Joker({
+	key = "eighth_day",
+	config = {
+		extra = {
+			cash_per_chips = 8,
+			cash_spent = 0,
+			chip_gain = 8,
+			chips = 0,
+		},
+	},
+	rarity = 1,
+	cost = 4,
+	atlas = "12_days",
+	pos = { x = 1, y = 1 },
+	discovered = true,
+	blueprint_compat = true,
+	eternal_compat = true,
+	perishable_compat = false,
+	loc_vars = function(self, info_queue, card)
+		return {
+			vars = {
+				card.ability.extra.chip_gain,
+				card.ability.extra.cash_per_chips,
+				card.ability.extra.chips,
+			},
+		}
+	end,
+	calculate = function(self, card, context)
+		if context.reroll_shop and not context.blueprint then
+			card.ability.extra.cash_spent = card.ability.extra.cash_spent + context.cost
+			local ticks = 0
+			while card.ability.extra.cash_spent > card.ability.extra.cash_per_chips do
+				ticks = ticks + 1
+				card.ability.extra.cash_spent = card.ability.extra.cash_spent - card.ability.extra.cash_per_chips
+			end
+			if ticks > 0 then
+				SMODS.scale_card(card, {
+					ref_table = card.ability.extra,
+					ref_value = "chips",
+					scalar_value = "chip_gain",
+					operation = function(ref_table, ref_value, initial, scaling)
+						ref_table[ref_value] = initial + scaling * ticks
+					end,
+				})
+			end
+		end
+
+		if context.joker_main then
+			return { chips = card.ability.extra.chips }
+		end
+	end,
+})
 
 -- Seven Swans a-Swimming
 SMODS.Joker({

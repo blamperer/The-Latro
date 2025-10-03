@@ -217,7 +217,7 @@ return {
 			j_thel_first_day = {
 				name = "Partridge in a Pair Tree",
 				text = {
-					"Creates {C:attention}1 {C:tarot}Tarot{} card",
+					"Creates {C:attention}1 {C:attention}Consumable{} card",
 					"for every {C:attention}#1#",
 					"in played hand",
 					"{C:inactive}(Must have room)",
@@ -256,6 +256,14 @@ return {
 					"destroy a random card",
 					"{C:red}without{} rank 7 in hand",
 				},
+			},
+			j_thel_eighth_day = {
+				name = "Eight Maids a-Milking",
+				text = {
+					"This Joker gains {C:chips}+#1#{} Chips for every",
+					"{C:money}$#2#{} spent rerolling in the shop",
+					"{C:inactive}(Currently {C:chips}+#3# {C:inactive}Chips)"
+				}
 			},
 		},
 		-- Other={},
