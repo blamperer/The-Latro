@@ -82,7 +82,7 @@ SMODS.Joker({
 	calculate = function(self, card, context)
 		if context.end_of_round and not context.blueprint and card.ability.extra.fives_held == 0 then
 			for _, held_card in ipairs(G.hand.cards) do
-				if held_card:get_id() == 5 then
+				if held_card:get_id() == 5 and not held_card.debuff then
 					card.ability.extra.fives_held = card.ability.extra.fives_held + 1
 				end
 			end
@@ -108,8 +108,12 @@ SMODS.Joker({
 	eternal_compat = true,
 	perishable_compat = true,
 	calculate = function(self, card, context)
-		if context.individual then
-			if context.other_card:get_id() == 4 then
+		if context.individual and context.cardarea == G.play then
+			if
+				context.other_card:get_id() == 4
+				and SMODS.in_scoring(context.other_card, context.scoring_hand)
+				and not context.other_card.debuff
+			then
 				draw_card(G.deck, G.hand)
 			end
 		end
@@ -155,13 +159,14 @@ SMODS.Joker({
 			end
 			if num_pairs > 0 then
 				for i = 1, math.min(num_pairs, G.consumeables.config.card_limit - #G.consumeables.cards) do
+					local type = the_latro.weighted_pick({ { "Tarot", 47.5 }, { "Planet", 47.5 }, { "Spectral", 5 } })
 					G.E_MANAGER:add_event(Event({
 						trigger = "after",
 						delay = 0.4,
 						func = function()
 							if G.consumeables.config.card_limit > #G.consumeables.cards then
 								play_sound("timpani")
-								SMODS.add_card({ set = "Tarot", area = G.consumeables })
+								SMODS.add_card({ set = type, area = G.consumeables })
 								card:juice_up(0.3, 0.5)
 							end
 							return true

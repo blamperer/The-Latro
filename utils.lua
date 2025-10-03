@@ -37,7 +37,7 @@ function the_latro.rank_in_deck(proportional)
 		if not SMODS.has_no_rank(card) then
 			local rank = card.config.card.value
 			if proportional or not the_latro.table_contains(ranks, rank) then
-				ranks[#ranks+1] = rank
+				ranks[#ranks + 1] = rank
 			end
 		end
 	end
@@ -56,7 +56,7 @@ function the_latro.suit_in_deck(proportional)
 		if not SMODS.has_no_suit(card) then
 			local suit = card.config.card.suit
 			if proportional or not the_latro.table_contains(suits, suit) then
-				suits[#suits+1] = suit
+				suits[#suits + 1] = suit
 			end
 		end
 	end
@@ -68,10 +68,29 @@ function the_latro.suit_in_deck(proportional)
 	end
 end
 
+---@param entries table A table of (item, weight) pairs. As long as the weight is the second one.
+function the_latro.weighted_pick(entries)
+	local total_weight = 0.0
+	for _, v in ipairs(entries) do
+		total_weight = total_weight + v[2]
+	end
+	local x = pseudorandom("the_latro")
+	for _, v in ipairs(entries) do
+		local pick_chance = v[2] / total_weight
+		if pick_chance > x then
+			return v[1]
+		else
+			x = x - pick_chance
+		end
+	end
+end
+
 -- Yoink these straight from the base game
 
 function the_latro.flip_cards(cards)
-	if not type(cards) == "table" then cards = {cards} end
+	if not type(cards) == "table" then
+		cards = { cards }
+	end
 	for i = 1, #cards do
 		local percent = 1.15 - (i - 0.999) / (#cards - 0.998) * 0.3
 		G.E_MANAGER:add_event(Event({
@@ -87,7 +106,9 @@ function the_latro.flip_cards(cards)
 	end
 end
 function the_latro.unflip_cards(cards)
-	if not type(cards) == "table" then cards = {cards} end
+	if not type(cards) == "table" then
+		cards = { cards }
+	end
 	for i = 1, #cards do
 		local percent = 0.85 + (i - 0.999) / (#cards - 0.998) * 0.3
 		G.E_MANAGER:add_event(Event({
