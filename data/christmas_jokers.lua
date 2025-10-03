@@ -77,7 +77,7 @@ SMODS.Joker({
 	atlas = "12_days",
 	pos = { x = 5, y = 0 },
 	discovered = true,
-	blueprint_compat = true,
+	blueprint_compat = false,
 	eternal_compat = true,
 	perishable_compat = true,
 	loc_vars = function(self, info_queue, card)
@@ -134,7 +134,7 @@ SMODS.Joker({
 			print(card.ability.extra.fives_held)
 			G.GAME.interest_cap = G.GAME.interest_cap + (5 * card.ability.extra.fives_held)
 		end
-		if context.starting_shop then
+		if context.starting_shop and not context.blueprint then
 			G.GAME.interest_cap = G.GAME.interest_cap - (5 * card.ability.extra.fives_held)
 			card.ability.extra.fives_held = 0
 		end
