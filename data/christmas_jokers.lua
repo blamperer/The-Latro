@@ -59,6 +59,14 @@ SMODS.Joker({
 					operation = function(ref_table, ref_value, initial, scaling)
 						ref_table[ref_value] = initial + scaling * ticks
 					end,
+					scaling_message = {
+						message = localize({
+							type = "variable",
+							key = "a_chips",
+							vars = { card.ability.extra.chips + card.ability.extra.chip_gain * ticks },
+						}),
+						colour = G.C.CHIPS
+					},
 				})
 			end
 		end
