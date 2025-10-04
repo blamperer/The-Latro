@@ -138,8 +138,12 @@ SMODS.Joker({
 		} }
 	end,
 	calculate = function(self, card, context)
-		if context.individual and not context.blueprint then
-			if context.other_card:get_id() == 6 then
+		if context.individual and context.cardarea == G.play and not context.blueprint then
+			if
+				SMODS.in_scoring(context.other_card, context.scoring_hand)
+				and context.other_card:get_id() == 6
+				and not context.other_card.debuff
+			then
 				card.ability.extra.sixes_scored = card.ability.extra.sixes_scored + 1
 			end
 		end

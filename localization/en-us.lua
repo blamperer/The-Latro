@@ -217,8 +217,8 @@ return {
 			j_thel_first_day = {
 				name = "Partridge in a Pair Tree",
 				text = {
-					"Creates {C:attention}1 {C:attention}Consumable{} card",
-					"for every {C:attention}#1#",
+					"Creates {C:attention}1 {C:attention}Consumable",
+					"card for every {C:attention}#1#",
 					"in played hand",
 					"{C:inactive}(Must have room)",
 				},
