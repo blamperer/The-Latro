@@ -263,7 +263,6 @@ SMODS.Joker({
 				-- Select as many cards as possible
 				-- Weirdly janky. Why are they invisible. Done messing with it b/c it works now.
 				card.ability.extra.helping = true
-				G.hand:unhighlight_all()
 				local cards_to_select = math.min(#G.hand.cards, G.GAME.starting_params.play_limit) - #G.hand.highlighted
 				local eligible_cards = G.hand.cards
 				local forced_cards = {}
@@ -297,6 +296,7 @@ SMODS.Joker({
 		then
 			-- print(card.ID .. " done!")
 			card.ability.extra.activated = true
+			G.hand:unhighlight_all()
 			if G.GAME.current_round.helper_queue[1] == card.ID then
 				table.remove(G.GAME.current_round.helper_queue, 1)
 			end
