@@ -11,6 +11,14 @@ SMODS.Atlas({
 	py = 91,
 })
 
+-- Possible Talisman compat
+local function big(x)
+	return (Talisman and to_big(x)) or x
+end
+local function num(x)
+	return (Talisman and to_number(x)) or x
+end
+
 --#region JOKERS
 -- Misfortune
 SMODS.Joker({
@@ -327,7 +335,7 @@ SMODS.Joker({
 		if context.joker_main then
 			-- Apparently these are just global? Thanks Paperback
 			local current_chips = hand_chips
-			local current_mult = math.abs(mult) > 1e-9 and mult or 1e-9 -- Divide by 0 prevention
+			local current_mult = math.abs(mult) > big(1e-9) and mult or big(1e-9) -- Divide by 0 prevention
 			local new_chips = (current_chips * (current_mult + 4)) / current_mult
 			local added_chips = new_chips - current_chips
 			return { chips = added_chips }
