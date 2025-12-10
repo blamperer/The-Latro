@@ -263,10 +263,10 @@ SMODS.Joker({
 				-- Select as many cards as possible
 				-- Weirdly janky. Why are they invisible. Done messing with it b/c it works now.
 				card.ability.extra.helping = true
+				G.hand:unhighlight_all()
 				local cards_to_select = math.min(#G.hand.cards, G.GAME.starting_params.play_limit) - #G.hand.highlighted
 				local eligible_cards = G.hand.cards
 				local forced_cards = {}
-				G.hand:unhighlight_all()
 				for i = cards_to_select, 1, -1 do
 					local valid = false
 					local force_card, idx
