@@ -268,7 +268,7 @@ SMODS.Joker({
 			end
 			if num_pairs > 0 then
 				for i = 1, math.min(num_pairs, G.consumeables.config.card_limit - #G.consumeables.cards) do
-					local type = the_latro.weighted_pick({ { "Tarot", 47.5 }, { "Planet", 47.5 }, { "Spectral", 5 } })
+					local type = the_latro.weighted_pick({ { "Tarot", 45 }, { "Planet", 45 }, { "Spectral", 10 } })
 					G.E_MANAGER:add_event(Event({
 						trigger = "after",
 						delay = 0.4,
