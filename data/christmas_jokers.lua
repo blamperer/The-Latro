@@ -141,9 +141,11 @@ SMODS.Joker({
 	eternal_compat = true,
 	perishable_compat = true,
 	loc_vars = function(self, info_queue, card)
-		return { vars = {
-			card.ability.extra.sixes_scored,
-		} }
+		return {
+			vars = {
+				card.ability.extra.sixes_scored,
+			}
+		}
 	end,
 	calculate = function(self, card, context)
 		if context.individual and context.cardarea == G.play and not context.blueprint then
@@ -246,9 +248,11 @@ SMODS.Joker({
 	eternal_compat = true,
 	perishable_compat = true,
 	loc_vars = function(self, info_queue, card)
-		return { vars = {
-			localize("Pair", "poker_hands"),
-		} }
+		return {
+			vars = {
+				localize("Pair", "poker_hands"),
+			}
+		}
 	end,
 	calculate = function(self, card, context)
 		if context.before and context.cardarea == G.jokers then

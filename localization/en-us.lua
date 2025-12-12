@@ -181,7 +181,7 @@ return {
 				name = "Normal-Sized Joker",
 				text = { "{C:chips}+4{} Mult?" },
 			},
-			j_thel_quest_log = {
+			j_thel_quest_log_none = {
 				name = "Quest Log",
 				text = {
 					"Earn {C:money}$#1#{} by playing a card",

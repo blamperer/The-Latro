@@ -130,11 +130,11 @@ SMODS.Joker({
 	eternal_compat = true,
 	perishable_compat = true,
 	loc_vars = function(self, info_queue, card)
-		return { vars = { G.GAME.probabilities.normal, card.ability.extra.odds } }
+		return { vars = SMODS.get_probability_vars(card, 1, card.ability.extra.odds) }
 	end,
 	calculate = function(self, card, context)
 		if context.retrigger_joker_check and not context.retrigger_joker and context.other_card ~= self then
-			if pseudorandom("terminal") < G.GAME.probabilities.normal / card.ability.extra.odds then
+			if SMODS.pseudorandom_probability(card, "terminal", 1, card.ability.extra.odds, "terminal") then
 				return {
 					message = localize("k_again_ex"),
 					repetitions = 1,
@@ -165,10 +165,12 @@ SMODS.Joker({
 	eternal_compat = true,
 	perishable_compat = true,
 	loc_vars = function(self, info_queue, card)
-		return { vars = {
-			card.ability.extra.chip_gain,
-			card.ability.extra.chips,
-		} }
+		return {
+			vars = {
+				card.ability.extra.chip_gain,
+				card.ability.extra.chips,
+			}
+		}
 	end,
 	calculate = function(self, card, context)
 		card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_gain
@@ -349,7 +351,7 @@ SMODS.Joker({
 	config = {
 		extra = {
 			prize = 1,
-			quest_type = "rank",
+			quest_type = "none",
 			rank_in_question = "Ace",
 			suit_in_question = "Spades",
 		},
@@ -367,10 +369,10 @@ SMODS.Joker({
 			vars = {
 				card.ability.extra.prize,
 				card.ability.extra.quest_type == "rank" and card.ability.extra.rank_in_question
-					or localize(card.ability.extra.suit_in_question, "suits_singular"),
+				or localize(card.ability.extra.suit_in_question, "suits_singular"),
 				colours = {
 					card.ability.extra.quest_type == "suit" and G.C.SUITS[card.ability.extra.suit_in_question]
-						or G.C.FILTER,
+					or G.C.FILTER,
 				},
 			},
 			key = self.key .. "_" .. card.ability.extra.quest_type,
@@ -378,7 +380,8 @@ SMODS.Joker({
 	end,
 	set_ability = function(self, card, initial, delay_sprites)
 		if initial and G and G.deck and G.GAME then
-			card.rank_in_question = the_latro.rank_in_deck(false)
+			card.ability.extra.rank_in_question = the_latro.rank_in_deck(false)
+			card.ability.extra.quest_type = "rank"
 		end
 	end,
 	calculate = function(self, card, context)
@@ -460,18 +463,12 @@ SMODS.Joker({
 						rank, max = _r, x
 					end
 				end
-				-- Make new card more enticing
-				local en_ed_seal = {
-					SMODS.poll_enhancement({ mod = 1.5 }),
-					SMODS.poll_edition({}),
-					SMODS.poll_seal({ mod = 1.25 }),
-				}
 				-- Interlope
 				local interloping_card = SMODS.add_card({
 					rank = rank,
-					enhancement = en_ed_seal[1],
-					edition = en_ed_seal[2],
-					seal = en_ed_seal[3],
+					enhancement = SMODS.poll_enhancement({ mod = 1.5 }),
+					edition = SMODS.poll_edition({}),
+					seal = SMODS.poll_seal({ mod = 1.25 }),
 					area = G.play,
 				})
 				interloping_card:start_materialize({ G.C.DARK_EDITION })
@@ -491,6 +488,7 @@ function Game:init_game_object()
 	igo.current_round.helper_queue = {}
 	return igo
 end
+
 --endregion
 
 -- Additional Joker files
