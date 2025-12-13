@@ -130,7 +130,7 @@ SMODS.Joker({
 	eternal_compat = true,
 	perishable_compat = true,
 	loc_vars = function(self, info_queue, card)
-		return { vars = SMODS.get_probability_vars(card, 1, card.ability.extra.odds) }
+		return { vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds) } }
 	end,
 	calculate = function(self, card, context)
 		if context.retrigger_joker_check and not context.retrigger_joker and context.other_card ~= self then
