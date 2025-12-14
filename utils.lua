@@ -85,6 +85,7 @@ function the_latro.weighted_pick(entries)
 			x = x - pick_chance
 		end
 	end
+	return entries[#entries][1]
 end
 
 -- Yoink these straight from the base game
