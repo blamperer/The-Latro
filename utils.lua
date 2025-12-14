@@ -31,7 +31,8 @@ function the_latro.slice(list, start_idx, end_idx)
 end
 
 ---@param proportional boolean?
-function the_latro.rank_in_deck(proportional)
+---@param args table?
+function the_latro.rank_in_deck(proportional, args)
 	local ranks = {}
 	for _, card in ipairs(G.playing_cards) do
 		if not SMODS.has_no_rank(card) then
@@ -42,15 +43,16 @@ function the_latro.rank_in_deck(proportional)
 		end
 	end
 	if #ranks > 0 then
-		local choice, _ = pseudorandom_element(ranks, "thel_random_rank", {})
-		return choice
+		local choice, _ = pseudorandom_element(ranks, "thel_random_rank", args or {})
+		return choice or "None"
 	else
-		return "Ace"
+		return "None"
 	end
 end
 
 ---@param proportional boolean?
-function the_latro.suit_in_deck(proportional)
+---@param args table?
+function the_latro.suit_in_deck(proportional, args)
 	local suits = {}
 	for _, card in ipairs(G.playing_cards) do
 		if not SMODS.has_no_suit(card) then
@@ -61,10 +63,10 @@ function the_latro.suit_in_deck(proportional)
 		end
 	end
 	if #suits > 0 then
-		local choice, _ = pseudorandom_element(suits, "thel_random_suit", {})
-		return choice
+		local choice, _ = pseudorandom_element(suits, "thel_random_suit", args or {})
+		return choice or "None"
 	else
-		return "Spades"
+		return "None"
 	end
 end
 
