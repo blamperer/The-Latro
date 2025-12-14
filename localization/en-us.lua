@@ -197,6 +197,14 @@ return {
 					"{C:inactive}(Requirement changes on payout)",
 				},
 			},
+			j_thel_quest_log_rank_none = {
+				name = "Quest Log",
+				text = {
+					"Earn {C:money}$#1#{} if you play",
+					"a card with {V:1}#2#{} rank",
+					"{C:inactive}(Requirement changes on payout)",
+				},
+			},
 			j_thel_quest_log_suit = {
 				name = "Quest Log",
 				text = {

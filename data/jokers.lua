@@ -365,21 +365,45 @@ SMODS.Joker({
 	eternal_compat = true,
 	perishable_compat = true,
 	loc_vars = function(self, info_queue, card)
+		local indicated_thing = ""
+		local proper_color = G.C.FILTER
+		local text_flavor = "none"
+
+		if card.ability.extra.quest_type == "rank" then
+			if card.ability.extra.rank_in_question == "None" then
+				indicated_thing = "no"
+				text_flavor = "rank_none"
+			else
+				indicated_thing = tostring(card.ability.extra.rank_in_question)
+				text_flavor = "rank"
+			end
+		elseif card.ability.extra.quest_type == "suit" then
+			text_flavor = "suit"
+			if card.ability.extra.suit_in_question == "None" then
+				indicated_thing = "no"
+			else
+				indicated_thing = localize(card.ability.extra.suit_in_question, "suits_singular")
+				proper_color = G.C.SUITS[card.ability.extra.suit_in_question]
+			end
+		end
+
 		return {
 			vars = {
 				card.ability.extra.prize,
-				card.ability.extra.quest_type == "rank" and card.ability.extra.rank_in_question
-				or localize(card.ability.extra.suit_in_question, "suits_singular"),
-				colours = {
-					card.ability.extra.quest_type == "suit" and G.C.SUITS[card.ability.extra.suit_in_question]
-					or G.C.FILTER,
-				},
+				-- card.ability.extra.quest_type == "rank" and card.ability.extra.rank_in_question
+				-- or localize(card.ability.extra.suit_in_question, "suits_singular"),
+				-- colours = {
+				-- 	card.ability.extra.quest_type == "suit" and G.C.SUITS[card.ability.extra.suit_in_question]
+				-- 	or G.C.FILTER,
+				-- },
+				indicated_thing,
+				colours = { proper_color }
 			},
-			key = self.key .. "_" .. card.ability.extra.quest_type,
+			key = self.key .. "_" .. text_flavor,
 		}
 	end,
-	set_ability = function(self, card, initial, delay_sprites)
-		if initial and G and G.deck and G.GAME then
+	add_to_deck = function(self, card, from_debuff)
+		if not from_debuff then
 			card.ability.extra.rank_in_question = the_latro.rank_in_deck(false)
 			card.ability.extra.quest_type = "rank"
 		end
@@ -395,11 +419,16 @@ SMODS.Joker({
 			end
 		end
 
+		-- Earn reward for indicated card
 		if context.individual and context.cardarea == G.play then
-			local this_card = context.other_card
+			local this_card = context.other_card or {}
 			if
-				card.ability.extra.quest_type == "rank"
-				and this_card.config.card.value == card.ability.extra.rank_in_question
+				card.ability.extra.quest_type == "rank" and
+				(
+					(this_card.config.card.value == card.ability.extra.rank_in_question)
+					or
+					(card.ability.extra.rank_in_question == "None" and SMODS.has_no_rank(this_card))
+				)
 			then
 				flip_quest()
 				SMODS.calculate_effect({ dollars = card.ability.extra.prize }, card)
@@ -407,13 +436,16 @@ SMODS.Joker({
 					message = localize({
 						type = "variable",
 						key = "indicate_suit",
-						vars = { localize(card.ability.extra.suit_in_question, "suits_plural") },
+						vars = {
+							card.ability.extra.suit_in_question == "None" and "None" or
+							localize(card.ability.extra.suit_in_question, "suits_plural")
+						},
 					}),
-					card = card,
+					message_card = card,
 				}
 			elseif
 				card.ability.extra.quest_type == "suit"
-				and this_card:is_suit(card.ability.extra.suit_in_question, false, true)
+				and this_card:get_suit() == card.ability.extra.suit_in_question
 			then
 				flip_quest()
 				SMODS.calculate_effect({ dollars = card.ability.extra.prize }, card)
@@ -421,10 +453,51 @@ SMODS.Joker({
 					message = localize({
 						type = "variable",
 						key = "indicate_rank",
-						vars = { localize(card.ability.extra.rank_in_question, "ranks") },
+						vars = {
+							card.ability.extra.rank_in_question == "None" and "None" or
+							localize(card.ability.extra.rank_in_question, "ranks")
+						},
 					}),
-					card = card,
+					message_card = card,
 				}
+			end
+		end
+
+		-- Don't get stuck on something you don't have
+		if context.end_of_round and context.cardarea == G.jokers then
+			local count = 0
+			for _, v in ipairs(G.playing_cards) do
+				if (card.ability.extra.quest_type == "rank" and (v.config.card.value == card.ability.extra.rank_in_question and (not SMODS.has_no_rank(v))))
+				then
+					count = count + 1
+				elseif (card.ability.extra.quest_type == "suit" and v:is_suit(card.ability.extra.suit_in_question, false, true))
+				then
+					count = count + 1
+				end
+			end
+
+			if count == 0 then
+				if card.ability.extra.quest_type == "rank" then
+					card.ability.extra.rank_in_question = the_latro.rank_in_deck(false)
+					return {
+						message = localize({
+							type = "variable",
+							key = "indicate_rank",
+							vars = { localize(card.ability.extra.rank_in_question, "ranks") },
+						}),
+						message_card = card,
+					}
+				elseif card.ability.extra.quest_type == "suit" then
+					card.ability.extra.suit_in_question = the_latro.suit_in_deck(false)
+					return {
+						message = localize({
+							type = "variable",
+							key = "indicate_suit",
+							vars = { localize(card.ability.extra.suit_in_question, "suits_plural") },
+						}),
+						message_card = card,
+					}
+				end
 			end
 		end
 	end,
