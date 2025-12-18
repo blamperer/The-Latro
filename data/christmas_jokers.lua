@@ -8,6 +8,55 @@ SMODS.Atlas({
 --#region On the 12th day of Christmas, my true love gave to me,
 
 -- Twelve Drummers Drumming
+SMODS.Joker {
+	key = "twelfth_day",
+	config = {
+		extra = {
+			faces_scored = 0,
+			faces_needed = 12
+		}
+	},
+	rarity = 1,
+	cost = 3,
+	atlas = "12_days",
+	pos = { x = 5, y = 1 },
+	discovered = true,
+	blueprint_compat = true,
+	eternal_compat = true,
+	perishable_compat = true,
+	loc_vars = function(self, info_queue, card)
+		return {
+			vars = {
+				card.ability.extra.faces_needed,
+				card.ability.extra.faces_scored
+			}
+		}
+	end,
+	calculate = function(self, card, context)
+		if context.individual and context.cardarea == G.play and context.other_card:is_face() then
+			if not context.blueprint then
+				card.ability.extra.faces_scored = card.ability.extra.faces_scored + 1
+			end
+
+			if card.ability.extra.faces_scored >= card.ability.extra.faces_needed then
+				card.ability.extra.faces_scored = card.ability.extra.faces_scored - card.ability.extra.faces_needed
+				if #G.consumeables.cards < G.consumeables.config.card_limit then
+					G.E_MANAGER:add_event(Event({
+						func = function()
+							SMODS.add_card { set = "Tarot", area = G.consumeables }
+							return true
+						end
+					}))
+					return {
+						message = localize("k_plus_tarot"),
+						message_card = card,
+						colour = G.C.SECONDARY_SET.Tarot
+					}
+				end
+			end
+		end
+	end
+}
 
 -- Eleven Pipers Piping
 

@@ -111,7 +111,7 @@ return {
 					"and {C:blue}score it{} as well",
 				},
 			},
-						--region ZODIAC JOKERS
+			--region ZODIAC JOKERS
 			j_thel_aries = {
 				name = "Aries",
 				text = {
@@ -274,6 +274,13 @@ return {
 					"{C:inactive}(Currently {C:chips}+#3# {C:inactive}Chips)"
 				}
 			},
+			j_thel_twelfth_day = {
+				name = "Twelve Drummers Drumming",
+				text = {
+					"Every {C:attention}#1# face cards{} scored,",
+					"create a {C:tarot}Tarot{} card {C:inactive}[{C:attention}#2#{C:inactive}/#1#]"
+				}
+			}
 			--endregion
 		},
 		-- Other={},
