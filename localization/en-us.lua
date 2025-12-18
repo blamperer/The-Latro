@@ -22,6 +22,96 @@ return {
 					"have activated",
 				},
 			},
+			j_thel_blank_joker = {
+				name = "Blank Joker",
+				text = {
+					"{C:inactive}Does nothing?",
+				},
+			},
+			j_thel_blank_joker_alt = {
+				name = "Antijoker",
+				text = {
+					"+#1# Joker slots and",
+					"one more every #2# rounds",
+					"{C:inactive}({C:attention}#3#{C:inactive}/#2#)",
+				},
+			},
+			j_thel_terminal = {
+				name = "Terminal",
+				text = {
+					"{C:green}#1# in #2#{} chance to",
+					"retrigger other Jokers",
+				},
+			},
+			j_thel_chipfinity = {
+				name = "Chipfinity",
+				text = {
+					"This Joker gains {C:chips}+#1#{} Chip",
+					"{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)",
+				},
+			},
+			j_thel_uppydowny = {
+				name = "Uppy-Downy",
+				text = {
+					"The {C:attention}last{} played card",
+					"steals one rank from",
+					"the {C:attention}first{} played card",
+				},
+			},
+			j_thel_helper_robot = {
+				name = "Helper Robot",
+				text = {
+					"{C:blue}+1{} free hand,",
+					"{C:attention}played for you!",
+					'{B:1,V:2} "#1#" ^v^ ',
+				},
+			},
+			j_thel_normalsize = {
+				name = "Normal-Sized Joker",
+				text = { "{C:chips}+4{} Mult?" },
+			},
+			j_thel_quest_log_none = {
+				name = "Quest Log",
+				text = {
+					"Earn {C:money}$#1#{} by playing a card",
+					"of the {C:important}indicated type",
+					"{C:inactive}(Requirement changes on payout)",
+				},
+			},
+			j_thel_quest_log_rank = {
+				name = "Quest Log",
+				text = {
+					"Earn {C:money}$#1#{} if you play",
+					"a card of rank {V:1}#2#",
+					"{C:inactive}(Requirement changes on payout)",
+				},
+			},
+			j_thel_quest_log_rank_none = {
+				name = "Quest Log",
+				text = {
+					"Earn {C:money}$#1#{} if you play",
+					"a card with {V:1}#2#{} rank",
+					"{C:inactive}(Requirement changes on payout)",
+				},
+			},
+			j_thel_quest_log_suit = {
+				name = "Quest Log",
+				text = {
+					"Earn {C:money}$#1#{} if you play",
+					"a card with {V:1}#2#{} suit",
+					"{C:inactive}(Requirement changes on payout)",
+				},
+			},
+			j_thel_interloper = {
+				name = "Interloper",
+				text = {
+					"When played hand is an",
+					'{C:attention}"X of a Kind"{}, add a {C:attention}random',
+					"{C:attention}card{} of the {C:attention}same rank{}",
+					"and {C:blue}score it{} as well",
+				},
+			},
+						--region ZODIAC JOKERS
 			j_thel_aries = {
 				name = "Aries",
 				text = {
@@ -123,105 +213,8 @@ return {
 					"{X:mult,C:white}X#1#{} Mult",
 				},
 			},
-			j_thel_calculator = {
-				name = "Calculator",
-				text = {
-					"If played hand is a {C:attention}Pair",
-					"or {C:attention}Four of a Kind{} of",
-					"a {C:attention}power of two{},",
-					"combine them after scoring",
-					"{S:0.8,C:inactive}(Stops at {S:0.8,C:attention}#3#{S:0.8,C:inactive})",
-				},
-			},
-			j_thel_blank_joker = {
-				name = "Blank Joker",
-				text = {
-					"{C:inactive}Does nothing?",
-				},
-			},
-			j_thel_blank_joker_alt = {
-				name = "Antijoker",
-				text = {
-					"+#1# Joker slots and",
-					"one more every #2# rounds",
-					"{C:inactive}({C:attention}#3#{C:inactive}/#2#)",
-				},
-			},
-			j_thel_terminal = {
-				name = "Terminal",
-				text = {
-					"{C:green}#1# in #2#{} chance to",
-					"retrigger other Jokers",
-				},
-			},
-			j_thel_chipfinity = {
-				name = "Chipfinity",
-				text = {
-					"This Joker gains {C:chips}+#1#{} Chip",
-					"{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)",
-				},
-			},
-			j_thel_uppydowny = {
-				name = "Uppy-Downy",
-				text = {
-					"The {C:attention}last{} played card",
-					"steals one rank from",
-					"the {C:attention}first{} played card",
-				},
-			},
-			j_thel_helper_robot = {
-				name = "Helper Robot",
-				text = {
-					"{C:blue}+1{} free hand,",
-					"{C:attention}played for you!",
-					'{B:1,V:2} "#1#" ^v^ ',
-				},
-			},
-			j_thel_normalsize = {
-				name = "Normal-Sized Joker",
-				text = { "{C:chips}+4{} Mult?" },
-			},
-			j_thel_quest_log_none = {
-				name = "Quest Log",
-				text = {
-					"Earn {C:money}$#1#{} by playing a card",
-					"of the {C:important}indicated type",
-					"{C:inactive}(Requirement changes on payout)",
-				},
-			},
-			j_thel_quest_log_rank = {
-				name = "Quest Log",
-				text = {
-					"Earn {C:money}$#1#{} if you play",
-					"a card of rank {V:1}#2#",
-					"{C:inactive}(Requirement changes on payout)",
-				},
-			},
-			j_thel_quest_log_rank_none = {
-				name = "Quest Log",
-				text = {
-					"Earn {C:money}$#1#{} if you play",
-					"a card with {V:1}#2#{} rank",
-					"{C:inactive}(Requirement changes on payout)",
-				},
-			},
-			j_thel_quest_log_suit = {
-				name = "Quest Log",
-				text = {
-					"Earn {C:money}$#1#{} if you play",
-					"a card with {V:1}#2#{} suit",
-					"{C:inactive}(Requirement changes on payout)",
-				},
-			},
-			j_thel_interloper = {
-				name = "Interloper",
-				text = {
-					"When played hand is an",
-					'{C:attention}"X of a Kind"{}, add a {C:attention}random',
-					"{C:attention}card{} of the {C:attention}same rank{}",
-					"and {C:blue}score it{} as well",
-				},
-			},
+			--endregion
+			--region 12 DAYS OF CHRISTMAS
 			j_thel_first_day = {
 				name = "Partridge in a Pair Tree",
 				text = {
@@ -230,6 +223,14 @@ return {
 					"in played hand",
 					"{C:inactive}(Must have room)",
 				},
+			},
+			j_thel_second_day = {
+				name = "Two Turtle Doves",
+				text = {
+					"If played hand is {C:attention}#1#,",
+					"one card from each pair",
+					"gains a random {C:attention}enhancement"
+				}
 			},
 			j_thel_fourth_day = {
 				name = "Four Calling Birds",
@@ -273,6 +274,7 @@ return {
 					"{C:inactive}(Currently {C:chips}+#3# {C:inactive}Chips)"
 				}
 			},
+			--endregion
 		},
 		-- Other={},
 		-- Planet={},
