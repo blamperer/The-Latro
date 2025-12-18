@@ -234,7 +234,67 @@ SMODS.Joker({
 -- Three French Hens
 
 -- Two Turtle Doves
+SMODS.Joker {
+	key = "second_day",
+	rarity = 1,
+	cost = 4,
+	atlas = "12_days",
+	pos = { x = 1, y = 0 },
+	discovered = true,
+	blueprint_compat = false,
+	eternal_compat = true,
+	perishable_compat = true,
+	loc_vars = function(self, info_queue, card)
+		return {
+			vars = {
+				localize("Two Pair", "poker_hands")
+			}
+		}
+	end,
+	calculate = function(self, card, context)
+		if context.after and context.scoring_name == "Two Pair" and not context.blueprint then
+			local pair_table = {}
+			for _, v in ipairs(context.scoring_hand) do
+				local card_rank = v:get_rank()
+				if card_rank ~= "None" then
+					if pair_table[card_rank] and type(pair_table[card_rank]) == "table" then
+						table.insert(pair_table[card_rank], v)
+					else
+						pair_table[card_rank] = { v }
+					end
+				end
+			end
+			local gifted_cards = {}
+			for _, v in pairs(pair_table) do
+				if #v >= 2 then
+					gifted_cards[#gifted_cards + 1] = pseudorandom_element(v, "thel_2nd", {})
+				end
+			end
 
+			G.E_MANAGER:add_event(Event({
+				func = function()
+					card:juice_up()
+					return true
+				end
+			}))
+			the_latro.flip_cards(gifted_cards)
+			for _, v in ipairs(gifted_cards) do
+				local enhanced_with = SMODS.poll_enhancement { guaranteed = true }
+				G.E_MANAGER:add_event(Event({
+					trigger = "after",
+					delay = 0.15,
+					func = function()
+						v:set_ability(enhanced_with)
+						v:juice_up()
+						return true
+					end
+				}))
+			end
+			the_latro.unflip_cards(gifted_cards)
+			delay(0.5)
+		end
+	end
+}
 -- and
 -- A Partridge in a Pear Tree
 SMODS.Joker({
