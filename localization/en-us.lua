@@ -227,7 +227,7 @@ return {
 			j_thel_second_day = {
 				name = "Two Turtle Doves",
 				text = {
-					"If played hand is {C:attention}#1#,",
+					"If played hand is {C:attention}#1#{},",
 					"one card from each pair",
 					"gains a random {C:attention}enhancement"
 				}
@@ -272,6 +272,14 @@ return {
 					"This Joker gains {C:chips}+#1#{} Chips for every",
 					"{C:money}$#2#{} spent rerolling in the shop",
 					"{C:inactive}(Currently {C:chips}+#3# {C:inactive}Chips)"
+				}
+			},
+			j_thel_tenth_day = {
+				name = "Ten Lords a-Leaping",
+				text = {
+					"If played hand has exactly {C:attention}2 Kings{},",
+					"retrigger every card {C:attention}between{} them",
+					"{C:inactive}(Drag to rearrange)"
 				}
 			},
 			j_thel_twelfth_day = {

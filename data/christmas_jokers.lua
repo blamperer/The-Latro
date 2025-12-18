@@ -61,6 +61,61 @@ SMODS.Joker {
 -- Eleven Pipers Piping
 
 -- Ten Lords a-Leaping
+SMODS.Joker {
+	key = "tenth_day",
+	config = {
+		extra = {
+			active = false,
+			king_one = 0,
+			king_two = 0
+		}
+	},
+	rarity = 2,
+	cost = 5,
+	atlas = "12_days",
+	pos = { x = 3, y = 1 },
+	discovered = true,
+	blueprint_compat = true,
+	eternal_compat = true,
+	perishable_compat = true,
+	calculate = function(self, card, context)
+		if context.before then
+			local kings = {}
+			for i, v in ipairs(context.scoring_hand) do
+				if v:get_rank() == "King" then table.insert(kings, { i, v }) end
+			end
+			if #kings == 2 then
+				card.ability.extra.active = true
+				card.ability.extra.king_one = kings[1][1]
+				card.ability.extra.king_two = kings[2][1]
+			else
+				card.ability.extra.active = false
+			end
+		end
+
+		if
+			context.cardarea == G.play
+			and context.repetition
+			and not context.repetition_only
+		then
+			local card_idx = -1
+			for i, v in pairs(context.scoring_hand) do
+				if context.other_card.ID == v.ID then
+					card_idx = i
+					break
+				end
+			end
+			print("card at " .. card_idx)
+			if (card_idx > card.ability.extra.king_one) and (card_idx < card.ability.extra.king_two) then
+				return {
+					message = localize("k_again_ex"),
+					repetitions = 1,
+					card = context.other_card
+				}
+			end
+		end
+	end
+}
 
 -- Nine Ladies Dancing
 
