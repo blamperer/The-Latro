@@ -7,6 +7,13 @@ function Card:get_suit()
 		return self.base.suit
 	end
 end
+function Card:get_rank()
+	if SMODS.has_no_rank(self) then
+		return "None"
+	else
+		return self.config.card.value
+	end
+end
 
 ---@param table table
 ---@param value any
