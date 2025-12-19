@@ -97,6 +97,7 @@ SMODS.Joker {
 			context.cardarea == G.play
 			and context.repetition
 			and not context.repetition_only
+			and card.ability.extra.active
 		then
 			local card_idx = -1
 			for i, v in pairs(context.scoring_hand) do
@@ -105,7 +106,7 @@ SMODS.Joker {
 					break
 				end
 			end
-			print("card at " .. card_idx)
+			-- print("card at " .. card_idx)
 			if (card_idx > card.ability.extra.king_one) and (card_idx < card.ability.extra.king_two) then
 				return {
 					message = localize("k_again_ex"),
