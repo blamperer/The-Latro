@@ -301,7 +301,7 @@ SMODS.Joker({
 					card.ability.extra.fives_held = card.ability.extra.fives_held + 1
 				end
 			end
-			print(card.ability.extra.fives_held)
+			-- print(card.ability.extra.fives_held)
 			G.GAME.interest_cap = G.GAME.interest_cap + (5 * card.ability.extra.fives_held)
 		end
 		if context.starting_shop and not context.blueprint then
@@ -336,6 +336,47 @@ SMODS.Joker({
 })
 
 -- Three French Hens
+SMODS.Joker {
+	key = "third_day",
+	config = {
+		extra = {
+			mult = 3
+		}
+	},
+	rarity = 1,
+	cost = 3,
+	atlas = "12_days",
+	pos = { x = 2, y = 0 },
+	discovered = true,
+	blueprint_compat = true,
+	eternal_compat = true,
+	perishable_compat = true,
+	loc_vars = function(self, info_queue, card)
+		return {
+			vars = {
+				card.ability.extra.mult
+			}
+		}
+	end,
+	calculate = function(self, card, context)
+		if context.individual and context.cardarea == G.play then
+			if SMODS.in_scoring(context.other_card, context.scoring_hand)
+				and context.other_card:get_id() == 3
+				and not context.other_card.debuff then
+				local threes = 0
+				for _, v in ipairs(context.scoring_hand) do
+					if v:get_id() == 3
+						and not v.debuff then
+						threes = threes + 1
+					end
+				end
+				return {
+					mult = card.ability.extra.mult * threes
+				}
+			end
+		end
+	end
+}
 
 -- Two Turtle Doves
 SMODS.Joker {

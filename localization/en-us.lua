@@ -232,6 +232,13 @@ return {
 					"gains a random {C:attention}enhancement"
 				}
 			},
+			j_thel_third_day = {
+				name = "Three French Hens",
+				text = {
+					"Each played {C:attention}3{} gives {C:mult}+#1#{} Mult",
+					"for {C:attention}every{} played {C:attention}3",
+				}
+			},
 			j_thel_fourth_day = {
 				name = "Four Calling Birds",
 				text = {
