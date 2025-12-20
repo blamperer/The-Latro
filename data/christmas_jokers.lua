@@ -59,6 +59,105 @@ SMODS.Joker {
 }
 
 -- Eleven Pipers Piping
+SMODS.Joker {
+	key = "eleventh_day",
+	config = {
+		extra = {
+			x_mult_gain = 0.5,
+			suits_scored = {}
+		}
+	},
+	rarity = 2,
+	cost = 6,
+	atlas = "12_days",
+	pos = { x = 4, y = 1 },
+	discovered = true,
+	blueprint_compat = true,
+	eternal_compat = true,
+	perishable_compat = true,
+	loc_vars = function(self, info_queue, card)
+		return {
+			vars = {
+				card.ability.extra.x_mult_gain,
+				1 + (#card.ability.extra.suits_scored * card.ability.extra.x_mult_gain)
+			}
+		}
+	end,
+	calculate = function(self, card, context)
+		if context.individual and context.cardarea == G.play and not context.blueprint then
+			if context.other_card:get_id() == 11 then
+				local suit = context.other_card:get_suit()
+				if suit ~= "None" then
+					if suit == "Wild" then
+						-- Substitute in a pre-existing suit
+						for k, _ in pairs(SMODS.Suits) do
+							if not the_latro.table_contains(card.ability.extra.suits_scored, k) then
+								table.insert(card.ability.extra.suits_scored, k)
+								return {
+									message = localize {
+										type = "variable",
+										key = "a_xmult",
+										vars = { 1 + (#card.ability.extra.suits_scored * card.ability.extra.x_mult_gain) }
+									},
+									colour = G.C.MULT,
+									message_card = card
+								}
+							end
+						end
+						-- A Wild card is infinite extra suits...
+						table.insert(card.ability.extra.suits_scored, suit)
+						return {
+							message = localize {
+								type = "variable",
+								key = "a_xmult",
+								vars = { 1 + (#card.ability.extra.suits_scored * card.ability.extra.x_mult_gain) }
+							},
+							colour = G.C.MULT,
+							message_card = card
+						}
+					elseif not the_latro.table_contains(card.ability.extra.suits_scored, suit) then
+						-- SMODS.scale_card(card, {
+						-- 	ref_table = card.ability.extra,
+						-- 	ref_value = "x_mult",
+						-- 	scalar_value = "x_mult_gain",
+						-- 	message_key = "a_xmult",
+						-- 	message_colour = G.C.MULT
+						-- })
+						table.insert(card.ability.extra.suits_scored, suit)
+						return {
+							message = localize {
+								type = "variable",
+								key = "a_xmult",
+								vars = { 1 + (#card.ability.extra.suits_scored * card.ability.extra.x_mult_gain) }
+							},
+							colour = G.C.MULT,
+							message_card = card
+						}
+					end
+				end
+			end
+		end
+
+		if context.joker_main and #card.ability.extra.suits_scored > 0 then
+			return {
+				xmult = 1 + (#card.ability.extra.suits_scored * card.ability.extra.x_mult_gain)
+			}
+		end
+
+		if
+			context.end_of_round
+			and context.beat_boss
+			and context.cardarea == G.jokers
+			and not context.blueprint
+		then
+			card.ability.extra.suits_scored = {}
+			return {
+				message = localize("k_reset"),
+				message_card = card
+			}
+		end
+	end
+}
 
 -- Ten Lords a-Leaping
 SMODS.Joker {

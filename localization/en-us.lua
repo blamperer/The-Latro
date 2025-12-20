@@ -289,6 +289,16 @@ return {
 					"{C:inactive}(Drag to rearrange)"
 				}
 			},
+			j_thel_eleventh_day = {
+				name = "Eleven Pipers Piping",
+				text = {
+					"This Joker gains {X:mult,C:white}X#1#{} Mult for",
+					"every {C:attention}Jack{} of a {C:attention}different suit",
+					"played this Ante",
+					"{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult)",
+					"{C:inactive}(Resets after Boss Blind)"
+				}
+			},
 			j_thel_twelfth_day = {
 				name = "Twelve Drummers Drumming",
 				text = {
