@@ -281,6 +281,14 @@ return {
 					"{C:inactive}(Currently {C:chips}+#3# {C:inactive}Chips)"
 				}
 			},
+			j_thel_ninth_day = {
+				name = "Nine Ladies Dancing",
+				text = {
+					"Scoring {C:attention}9s{} gain {C:mult}+#1#{} Mult and",
+					"scoring {C:attention}Queens{} gain {C:chips}+#2#{} Chips",
+					"if played hand has {C:attention}both"
+				}
+			},
 			j_thel_tenth_day = {
 				name = "Ten Lords a-Leaping",
 				text = {

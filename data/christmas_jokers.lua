@@ -218,6 +218,68 @@ SMODS.Joker {
 }
 
 -- Nine Ladies Dancing
+SMODS.Joker {
+	key = "ninth_day",
+	config = {
+		extra = {
+			mult_gain = 1,
+			chip_gain = 3,
+			active = false
+		}
+	},
+	rarity = 2,
+	cost = 5,
+	atlas = "12_days",
+	pos = { x = 2, y = 1 },
+	discovered = true,
+	blueprint_compat = true,
+	eternal_compat = true,
+	perishable_compat = true,
+	loc_vars = function(self, info_queue, card)
+		return {
+			vars = {
+				card.ability.extra.mult_gain,
+				card.ability.extra.chip_gain
+			}
+		}
+	end,
+	calculate = function(self, card, context)
+		if context.before and context.cardarea == G.jokers then
+			local has_nine, has_queen = false, false
+			for _, v in ipairs(context.scoring_hand) do
+				if v:get_id() == 9 then
+					has_nine = true
+				elseif v:get_id() == 12 then
+					has_queen = true
+				end
+			end
+			if has_nine and has_queen then card.ability.extra.active = true end
+		end
+
+		if context.individual and context.cardarea == G.play and card.ability.extra.active then
+			if context.other_card:get_id() == 9 then
+				context.other_card.ability.perma_mult = (context.other_card.ability.perma_mult or 0) + card.ability.extra.mult_gain
+				return {
+					message = localize("k_upgrade_ex"),
+					colour = G.C.MULT,
+					message_card = card
+				}
+			elseif context.other_card:get_id() == 12 then
+				context.other_card.ability.perma_bonus = (context.other_card.ability.perma_bonus or 0) +
+				card.ability.extra.chip_gain
+				return {
+					message = localize("k_upgrade_ex"),
+					colour = G.C.CHIPS,
+					message_card = card
+				}
+			end
+		end
+
+		if context.after then
+			card.ability.extra.active = false
+		end
+	end
+}
 
 -- Eight Maids a-Milking
 SMODS.Joker({
