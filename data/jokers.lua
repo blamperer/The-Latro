@@ -339,8 +339,9 @@ SMODS.Joker({
 			local current_chips = hand_chips
 			local current_mult = math.abs(mult) > big(1e-9) and mult or big(1e-9) -- Divide by 0 prevention
 			local new_chips = (current_chips * (current_mult + 4)) / current_mult
-			local added_chips = new_chips - current_chips
-			return { chips = added_chips }
+			local added_chips = math.floor(new_chips - current_chips)
+			if added_chips >= 1 then
+			return { chips = added_chips } end
 		end
 	end,
 })
@@ -555,12 +556,12 @@ SMODS.Joker({
 --#endregion
 
 --region HOOKS
-local igo_ref = Game.init_game_object
-function Game:init_game_object()
-	local igo = igo_ref(self)
-	igo.current_round.helper_queue = {}
-	return igo
-end
+-- local igo_ref = Game.init_game_object
+-- function Game:init_game_object()
+-- 	local igo = igo_ref(self)
+-- 	igo.current_round.helper_queue = {}
+-- 	return igo
+-- end
 
 --endregion
 
