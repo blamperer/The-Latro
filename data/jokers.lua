@@ -340,7 +340,7 @@ SMODS.Joker({
 			local current_mult = math.abs(mult) > big(1e-9) and mult or big(1e-9) -- Divide by 0 prevention
 			local new_chips = (current_chips * (current_mult + 4)) / current_mult
 			local added_chips = math.floor(new_chips - current_chips)
-			if added_chips >= 1 then
+			if added_chips >= big(1) then
 			return { chips = added_chips } end
 		end
 	end,
@@ -540,9 +540,9 @@ SMODS.Joker({
 				-- Interlope
 				local interloping_card = SMODS.add_card({
 					rank = rank,
-					enhancement = SMODS.poll_enhancement({ mod = 1.5 }),
+					enhancement = SMODS.poll_enhancement({ mod = 1.25 }),
 					edition = SMODS.poll_edition({}),
-					seal = SMODS.poll_seal({ mod = 1.25 }),
+					seal = SMODS.poll_seal({ mod = 1.1 }),
 					area = G.play,
 				})
 				interloping_card:start_materialize({ G.C.DARK_EDITION })
