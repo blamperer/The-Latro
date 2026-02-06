@@ -72,7 +72,7 @@ SMODS.Joker({
 			return { xmult = card.ability.extra.current_x_mult }
 		end
 
-		if context.money_altered and context.from_shop and num(context.amount) < 0 then
+		if context.money_altered and context.from_shop and num(context.amount) < 0 and not context.blueprint then
 			SMODS.scale_card(card, {
 				ref_table = card.ability.extra,
 				ref_value = "current_x_mult",
