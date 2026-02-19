@@ -265,29 +265,35 @@ SMODS.Joker({
 				-- Select as many cards as possible
 				-- Weirdly janky. Why are they invisible. Done messing with it b/c it works now.
 				card.ability.extra.helping = true
-				local cards_to_select = math.min(#G.hand.cards, G.GAME.starting_params.play_limit) - #G.hand.highlighted
-				local eligible_cards = G.hand.cards
-				local forced_cards = {}
-				for i = cards_to_select, 1, -1 do
-					local valid = false
-					local force_card, idx
-					while not valid and #eligible_cards > 0 do
-						force_card, idx = pseudorandom_element(eligible_cards, pseudoseed("helper_robot"))
-						table.remove(eligible_cards, tonumber(idx))
-						if not force_card.ability.forced_selection then
-							valid = true
+				G.E_MANAGER:add_event(Event({
+					func = function()
+						local cards_to_select = math.min(#G.hand.cards, G.GAME.starting_params.play_limit) -
+						#G.hand.highlighted
+						local eligible_cards = G.hand.cards
+						local forced_cards = {}
+						for i = cards_to_select, 1, -1 do
+							local valid = false
+							local force_card, idx
+							while not valid and #eligible_cards > 0 do
+								force_card, idx = pseudorandom_element(eligible_cards, pseudoseed("helper_robot"))
+								table.remove(eligible_cards, tonumber(idx))
+								if not force_card.ability.forced_selection then
+									valid = true
+								end
+							end
+							if #eligible_cards <= 0 then
+								break
+							end
+							forced_cards[#forced_cards + 1] = force_card
+							-- force_card.ability.forced_selection = true
+							-- G.hand:add_to_highlighted(force_card)
 						end
+						-- print(card.ID .. " playing!")
+						G.hand.highlighted = forced_cards
+						G.FUNCS.play_cards_from_highlighted(G.HUD:get_UIE_by_ID("play_button"))
+						return true
 					end
-					if #eligible_cards <= 0 then
-						break
-					end
-					forced_cards[#forced_cards + 1] = force_card
-					-- force_card.ability.forced_selection = true
-					-- G.hand:add_to_highlighted(force_card)
-				end
-				-- print(card.ID .. " playing!")
-				G.hand.highlighted = forced_cards
-				G.FUNCS.play_cards_from_highlighted(G.HUD:get_UIE_by_ID("play_button"))
+				}))
 			end
 		end
 		if
@@ -341,7 +347,8 @@ SMODS.Joker({
 			local new_chips = (current_chips * (current_mult + 4)) / current_mult
 			local added_chips = math.floor(new_chips - current_chips)
 			if added_chips >= big(1) then
-			return { chips = added_chips } end
+				return { chips = added_chips }
+			end
 		end
 	end,
 })
