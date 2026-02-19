@@ -10,5 +10,6 @@ Contains:
 - **33** Jokers
   - 12 Signs of the Zodiac
   - 12 Days of Christmas
+  - 9 others
 - **1** Deck
 - **1** Challenge
