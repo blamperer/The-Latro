@@ -3,6 +3,17 @@ the_latro.optional_features = {
 	retrigger_joker = true,
 }
 
+the_latro.reset_game_globals = function(run_start)
+	G.GAME.current_round.helper_queue = {}
+end
+
+SMODS.Atlas {
+	key = "modicon",
+	path = "modicon.png",
+	px = 34,
+	py = 34
+}
+
 SMODS.load_file("utils.lua")()
 
 -- Jokers

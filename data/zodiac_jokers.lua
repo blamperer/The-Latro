@@ -72,7 +72,7 @@ SMODS.Joker({
 			return { xmult = card.ability.extra.current_x_mult }
 		end
 
-		if context.money_altered and context.from_shop and num(context.amount) < 0 then
+		if context.money_altered and context.from_shop and num(context.amount) < 0 and not context.blueprint then
 			SMODS.scale_card(card, {
 				ref_table = card.ability.extra,
 				ref_value = "current_x_mult",
@@ -143,7 +143,7 @@ SMODS.Joker({
 			mult_gain = 10,
 		},
 	},
-	rarity = 2,
+	rarity = 1,
 	cost = 4,
 	atlas = "zodiac_jokers",
 	pos = { x = 3, y = 0 },
@@ -204,7 +204,7 @@ SMODS.Joker({
 			chips = 50,
 		},
 	},
-	rarity = 2,
+	rarity = 1,
 	cost = 4,
 	atlas = "zodiac_jokers",
 	pos = { x = 4, y = 0 },
@@ -304,7 +304,7 @@ SMODS.Joker({
 			seal = "Gold",
 		},
 	},
-	rarity = 2,
+	rarity = 3,
 	cost = 5,
 	atlas = "zodiac_jokers",
 	pos = { x = 0, y = 1 },
@@ -366,7 +366,7 @@ SMODS.Joker({
 			cards_valid = true,
 		},
 	},
-	rarity = 2,
+	rarity = 3,
 	cost = 5,
 	atlas = "zodiac_jokers",
 	pos = { x = 1, y = 1 },

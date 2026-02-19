@@ -11,6 +11,14 @@ SMODS.Atlas({
 	py = 91,
 })
 
+-- Possible Talisman compat
+local function big(x)
+	return (Talisman and to_big(x)) or x
+end
+local function num(x)
+	return (Talisman and to_number(x)) or x
+end
+
 --#region JOKERS
 -- Misfortune
 SMODS.Joker({
@@ -122,11 +130,11 @@ SMODS.Joker({
 	eternal_compat = true,
 	perishable_compat = true,
 	loc_vars = function(self, info_queue, card)
-		return { vars = { G.GAME.probabilities.normal, card.ability.extra.odds } }
+		return { vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds) } }
 	end,
 	calculate = function(self, card, context)
 		if context.retrigger_joker_check and not context.retrigger_joker and context.other_card ~= self then
-			if pseudorandom("terminal") < G.GAME.probabilities.normal / card.ability.extra.odds then
+			if SMODS.pseudorandom_probability(card, "terminal", 1, card.ability.extra.odds, "terminal") then
 				return {
 					message = localize("k_again_ex"),
 					repetitions = 1,
@@ -157,10 +165,12 @@ SMODS.Joker({
 	eternal_compat = true,
 	perishable_compat = true,
 	loc_vars = function(self, info_queue, card)
-		return { vars = {
-			card.ability.extra.chip_gain,
-			card.ability.extra.chips,
-		} }
+		return {
+			vars = {
+				card.ability.extra.chip_gain,
+				card.ability.extra.chips,
+			}
+		}
 	end,
 	calculate = function(self, card, context)
 		card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_gain
@@ -258,7 +268,6 @@ SMODS.Joker({
 				local cards_to_select = math.min(#G.hand.cards, G.GAME.starting_params.play_limit) - #G.hand.highlighted
 				local eligible_cards = G.hand.cards
 				local forced_cards = {}
-				G.hand:unhighlight_all()
 				for i = cards_to_select, 1, -1 do
 					local valid = false
 					local force_card, idx
@@ -289,6 +298,7 @@ SMODS.Joker({
 		then
 			-- print(card.ID .. " done!")
 			card.ability.extra.activated = true
+			G.hand:unhighlight_all()
 			if G.GAME.current_round.helper_queue[1] == card.ID then
 				table.remove(G.GAME.current_round.helper_queue, 1)
 			end
@@ -327,10 +337,11 @@ SMODS.Joker({
 		if context.joker_main then
 			-- Apparently these are just global? Thanks Paperback
 			local current_chips = hand_chips
-			local current_mult = math.abs(mult) > 1e-9 and mult or 1e-9 -- Divide by 0 prevention
+			local current_mult = math.abs(mult) > big(1e-9) and mult or big(1e-9) -- Divide by 0 prevention
 			local new_chips = (current_chips * (current_mult + 4)) / current_mult
-			local added_chips = new_chips - current_chips
-			return { chips = added_chips }
+			local added_chips = math.floor(new_chips - current_chips)
+			if added_chips >= big(1) then
+			return { chips = added_chips } end
 		end
 	end,
 })
@@ -341,7 +352,7 @@ SMODS.Joker({
 	config = {
 		extra = {
 			prize = 1,
-			quest_type = "rank",
+			quest_type = "none",
 			rank_in_question = "Ace",
 			suit_in_question = "Spades",
 		},
@@ -355,22 +366,47 @@ SMODS.Joker({
 	eternal_compat = true,
 	perishable_compat = true,
 	loc_vars = function(self, info_queue, card)
+		local indicated_thing = ""
+		local proper_color = G.C.FILTER
+		local text_flavor = "none"
+
+		if card.ability.extra.quest_type == "rank" then
+			if card.ability.extra.rank_in_question == "None" then
+				indicated_thing = "no"
+				text_flavor = "rank_none"
+			else
+				indicated_thing = tostring(card.ability.extra.rank_in_question)
+				text_flavor = "rank"
+			end
+		elseif card.ability.extra.quest_type == "suit" then
+			text_flavor = "suit"
+			if card.ability.extra.suit_in_question == "None" then
+				indicated_thing = "no"
+			else
+				indicated_thing = localize(card.ability.extra.suit_in_question, "suits_singular")
+				proper_color = G.C.SUITS[card.ability.extra.suit_in_question]
+			end
+		end
+
 		return {
 			vars = {
 				card.ability.extra.prize,
-				card.ability.extra.quest_type == "rank" and card.ability.extra.rank_in_question
-					or localize(card.ability.extra.suit_in_question, "suits_singular"),
-				colours = {
-					card.ability.extra.quest_type == "suit" and G.C.SUITS[card.ability.extra.suit_in_question]
-						or G.C.FILTER,
-				},
+				-- card.ability.extra.quest_type == "rank" and card.ability.extra.rank_in_question
+				-- or localize(card.ability.extra.suit_in_question, "suits_singular"),
+				-- colours = {
+				-- 	card.ability.extra.quest_type == "suit" and G.C.SUITS[card.ability.extra.suit_in_question]
+				-- 	or G.C.FILTER,
+				-- },
+				indicated_thing,
+				colours = { proper_color }
 			},
-			key = self.key .. "_" .. card.ability.extra.quest_type,
+			key = self.key .. "_" .. text_flavor,
 		}
 	end,
-	set_ability = function(self, card, initial, delay_sprites)
-		if initial and G and G.deck and G.GAME then
-			card.rank_in_question = the_latro.rank_in_deck(false)
+	add_to_deck = function(self, card, from_debuff)
+		if not from_debuff then
+			card.ability.extra.rank_in_question = the_latro.rank_in_deck(false)
+			card.ability.extra.quest_type = "rank"
 		end
 	end,
 	calculate = function(self, card, context)
@@ -384,11 +420,16 @@ SMODS.Joker({
 			end
 		end
 
+		-- Earn reward for indicated card
 		if context.individual and context.cardarea == G.play then
-			local this_card = context.other_card
+			local this_card = context.other_card or {}
 			if
-				card.ability.extra.quest_type == "rank"
-				and this_card.config.card.value == card.ability.extra.rank_in_question
+				card.ability.extra.quest_type == "rank" and
+				(
+					(this_card.config.card.value == card.ability.extra.rank_in_question)
+					or
+					(card.ability.extra.rank_in_question == "None" and SMODS.has_no_rank(this_card))
+				)
 			then
 				flip_quest()
 				SMODS.calculate_effect({ dollars = card.ability.extra.prize }, card)
@@ -396,13 +437,16 @@ SMODS.Joker({
 					message = localize({
 						type = "variable",
 						key = "indicate_suit",
-						vars = { localize(card.ability.extra.suit_in_question, "suits_plural") },
+						vars = {
+							card.ability.extra.suit_in_question == "None" and "None" or
+							localize(card.ability.extra.suit_in_question, "suits_plural")
+						},
 					}),
-					card = card,
+					message_card = card,
 				}
 			elseif
 				card.ability.extra.quest_type == "suit"
-				and this_card:is_suit(card.ability.extra.suit_in_question, false, true)
+				and this_card:get_suit() == card.ability.extra.suit_in_question
 			then
 				flip_quest()
 				SMODS.calculate_effect({ dollars = card.ability.extra.prize }, card)
@@ -410,10 +454,51 @@ SMODS.Joker({
 					message = localize({
 						type = "variable",
 						key = "indicate_rank",
-						vars = { localize(card.ability.extra.rank_in_question, "ranks") },
+						vars = {
+							card.ability.extra.rank_in_question == "None" and "None" or
+							localize(card.ability.extra.rank_in_question, "ranks")
+						},
 					}),
-					card = card,
+					message_card = card,
 				}
+			end
+		end
+
+		-- Don't get stuck on something you don't have
+		if context.end_of_round and context.cardarea == G.jokers then
+			local count = 0
+			for _, v in ipairs(G.playing_cards) do
+				if (card.ability.extra.quest_type == "rank" and (v.config.card.value == card.ability.extra.rank_in_question and (not SMODS.has_no_rank(v))))
+				then
+					count = count + 1
+				elseif (card.ability.extra.quest_type == "suit" and v:is_suit(card.ability.extra.suit_in_question, false, true))
+				then
+					count = count + 1
+				end
+			end
+
+			if count == 0 then
+				if card.ability.extra.quest_type == "rank" then
+					card.ability.extra.rank_in_question = the_latro.rank_in_deck(false)
+					return {
+						message = localize({
+							type = "variable",
+							key = "indicate_rank",
+							vars = { localize(card.ability.extra.rank_in_question, "ranks") },
+						}),
+						message_card = card,
+					}
+				elseif card.ability.extra.quest_type == "suit" then
+					card.ability.extra.suit_in_question = the_latro.suit_in_deck(false)
+					return {
+						message = localize({
+							type = "variable",
+							key = "indicate_suit",
+							vars = { localize(card.ability.extra.suit_in_question, "suits_plural") },
+						}),
+						message_card = card,
+					}
+				end
 			end
 		end
 	end,
@@ -452,18 +537,12 @@ SMODS.Joker({
 						rank, max = _r, x
 					end
 				end
-				-- Make new card more enticing
-				local en_ed_seal = {
-					SMODS.poll_enhancement({ mod = 1.5 }),
-					SMODS.poll_edition({}),
-					SMODS.poll_seal({ mod = 1.25 }),
-				}
 				-- Interlope
 				local interloping_card = SMODS.add_card({
 					rank = rank,
-					enhancement = en_ed_seal[1],
-					edition = en_ed_seal[2],
-					seal = en_ed_seal[3],
+					enhancement = SMODS.poll_enhancement({ mod = 1.25 }),
+					edition = SMODS.poll_edition({}),
+					seal = SMODS.poll_seal({ mod = 1.1 }),
 					area = G.play,
 				})
 				interloping_card:start_materialize({ G.C.DARK_EDITION })
@@ -477,13 +556,15 @@ SMODS.Joker({
 --#endregion
 
 --region HOOKS
-local igo_ref = Game.init_game_object
-function Game:init_game_object()
-	local igo = igo_ref(self)
-	igo.current_round.helper_queue = {}
-	return igo
-end
+-- local igo_ref = Game.init_game_object
+-- function Game:init_game_object()
+-- 	local igo = igo_ref(self)
+-- 	igo.current_round.helper_queue = {}
+-- 	return igo
+-- end
+
 --endregion
 
 -- Additional Joker files
 SMODS.load_file("data/zodiac_jokers.lua")()
+SMODS.load_file("data/christmas_jokers.lua")()
