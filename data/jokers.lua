@@ -232,7 +232,7 @@ SMODS.Joker({
 	atlas = "the_jokers",
 	pos = { x = 5, y = 0 },
 	discovered = true,
-	blueprint_compat = true,
+	blueprint_compat = false,
 	eternal_compat = true,
 	perishable_compat = true,
 	loc_vars = function(self, info_queue, card)
@@ -254,64 +254,65 @@ SMODS.Joker({
 		-- 	end
 		-- 	return false
 		-- end
+		if not context.blueprint then
+			if context.setting_blind and context.cardarea == G.jokers then
+				G.GAME.current_round.helper_queue[#G.GAME.current_round.helper_queue + 1] = card.ID
+			end
 
-		if context.setting_blind and context.cardarea == G.jokers then
-			G.GAME.current_round.helper_queue[#G.GAME.current_round.helper_queue + 1] = card.ID
-		end
-
-		if context.hand_drawn and context.cardarea == G.jokers then
-			if G.GAME.current_round.helper_queue[1] == card.ID then
-				-- print(card.ID .. " helping!")
-				-- Select as many cards as possible
-				-- Weirdly janky. Why are they invisible. Done messing with it b/c it works now.
-				card.ability.extra.helping = true
-				G.E_MANAGER:add_event(Event({
-					func = function()
-						local cards_to_select = math.min(#G.hand.cards, G.GAME.starting_params.play_limit) -
-						#G.hand.highlighted
-						local eligible_cards = G.hand.cards
-						local forced_cards = {}
-						for i = cards_to_select, 1, -1 do
-							local valid = false
-							local force_card, idx
-							while not valid and #eligible_cards > 0 do
-								force_card, idx = pseudorandom_element(eligible_cards, pseudoseed("helper_robot"))
-								table.remove(eligible_cards, tonumber(idx))
-								if not force_card.ability.forced_selection then
-									valid = true
+			if context.hand_drawn and context.cardarea == G.jokers then
+				if G.GAME.current_round.helper_queue[1] == card.ID then
+					-- print(card.ID .. " helping!")
+					-- Select as many cards as possible
+					-- Weirdly janky. Why are they invisible. Done messing with it b/c it works now.
+					card.ability.extra.helping = true
+					G.E_MANAGER:add_event(Event({
+						func = function()
+							local cards_to_select = math.min(#G.hand.cards, G.GAME.starting_params.play_limit) -
+								#G.hand.highlighted
+							local eligible_cards = G.hand.cards
+							local forced_cards = {}
+							for i = cards_to_select, 1, -1 do
+								local valid = false
+								local force_card, idx
+								while not valid and #eligible_cards > 0 do
+									force_card, idx = pseudorandom_element(eligible_cards, pseudoseed("helper_robot"))
+									table.remove(eligible_cards, tonumber(idx))
+									if not force_card.ability.forced_selection then
+										valid = true
+									end
 								end
+								if #eligible_cards <= 0 then
+									break
+								end
+								forced_cards[#forced_cards + 1] = force_card
+								-- force_card.ability.forced_selection = true
+								-- G.hand:add_to_highlighted(force_card)
 							end
-							if #eligible_cards <= 0 then
-								break
-							end
-							forced_cards[#forced_cards + 1] = force_card
-							-- force_card.ability.forced_selection = true
-							-- G.hand:add_to_highlighted(force_card)
+							-- print(card.ID .. " playing!")
+							G.hand.highlighted = forced_cards
+							G.FUNCS.play_cards_from_highlighted(G.HUD:get_UIE_by_ID("play_button"))
+							return true
 						end
-						-- print(card.ID .. " playing!")
-						G.hand.highlighted = forced_cards
-						G.FUNCS.play_cards_from_highlighted(G.HUD:get_UIE_by_ID("play_button"))
-						return true
-					end
-				}))
+					}))
+				end
 			end
-		end
-		if
-			context.after
-			and context.cardarea == G.jokers
-			and card.ability.extra.helping
-			and not card.ability.extra.activated
-		then
-			-- print(card.ID .. " done!")
-			card.ability.extra.activated = true
-			G.hand:unhighlight_all()
-			if G.GAME.current_round.helper_queue[1] == card.ID then
-				table.remove(G.GAME.current_round.helper_queue, 1)
+			if
+				context.after
+				and context.cardarea == G.jokers
+				and card.ability.extra.helping
+				and not card.ability.extra.activated
+			then
+				-- print(card.ID .. " done!")
+				card.ability.extra.activated = true
+				G.hand:unhighlight_all()
+				if G.GAME.current_round.helper_queue[1] == card.ID then
+					table.remove(G.GAME.current_round.helper_queue, 1)
+				end
 			end
-		end
-		if context.end_of_round and context.cardarea == G.jokers then
-			card.ability.extra.helping = false
-			card.ability.extra.activated = false
+			if context.end_of_round and context.cardarea == G.jokers then
+				card.ability.extra.helping = false
+				card.ability.extra.activated = false
+			end
 		end
 	end,
 	add_to_deck = function(self, card, from_debuff)
