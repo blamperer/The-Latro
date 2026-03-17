@@ -1,17 +1,12 @@
+-- ZODIAC JOKERS
+-- The 12-ish Signs of the Zodiac.
+
 SMODS.Atlas({
 	key = "zodiac_jokers",
 	path = "zodiac_jokers.png",
 	px = 71,
 	py = 95,
 })
-
--- Possible Talisman compat
-local function big(x)
-	return (Talisman and to_big(x)) or x
-end
-local function num(x)
-	return (Talisman and to_number(x)) or x
-end
 
 --#region JOKERS
 -- Aries
@@ -72,7 +67,7 @@ SMODS.Joker({
 			return { xmult = card.ability.extra.current_x_mult }
 		end
 
-		if context.money_altered and context.from_shop and num(context.amount) < 0 and not context.blueprint then
+		if context.money_altered and context.from_shop and the_latro.num(context.amount) < 0 and not context.blueprint then
 			SMODS.scale_card(card, {
 				ref_table = card.ability.extra,
 				ref_value = "current_x_mult",
