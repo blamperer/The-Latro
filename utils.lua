@@ -95,6 +95,19 @@ function the_latro.weighted_pick(entries)
 	return entries[#entries][1]
 end
 
+---@param cards table
+---@param enh string
+---@return integer
+function the_latro.enhancement_count(cards, enh)
+	local count = 0
+	for _,v in ipairs(cards) do
+		if v.config.center_key == enh then
+			count = count + 1
+		end
+	end
+	return count
+end
+
 -- Yoink these straight from the base game
 
 function the_latro.flip_cards(cards)
