@@ -63,7 +63,7 @@ SMODS.Consumable {
             trigger = "after",
             delay = 0.2,
             func = function()
-                G.hand.unhighlight_all()
+                G.hand:unhighlight_all()
                 return true
             end
         }))
