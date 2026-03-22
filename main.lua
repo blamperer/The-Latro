@@ -19,6 +19,9 @@ SMODS.load_file("utils.lua")()
 -- Jokers
 SMODS.load_file("data/jokers.lua")()
 
+-- Consumables
+SMODS.load_file("data/consumables.lua")()
+
 -- Decks
 SMODS.load_file("data/decks.lua")()
 

@@ -1,0 +1,31 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+## Patch get_X_same to work with Two Cards
+[[patches]]
+[patches.pattern]
+target = "functions/misc_functions.lua"
+pattern = "table.insert(curr, hand[i])"
+position = "after"
+match_indent = true
+payload = '''
+-- The Latro: Two Cards check
+if SMODS.has_enhancement(hand[i], "m_thel_twocards") then
+    table.insert(curr, hand[i])
+end
+'''
+
+[[patches]]
+[patches.pattern]
+target = "functions/misc_functions.lua"
+pattern = "table.insert(curr, hand[j])"
+position = "after"
+match_indent = true
+payload = '''
+-- The Latro: Two Cards check
+if SMODS.has_enhancement(hand[j], "m_thel_twocards") then
+    table.insert(curr, hand[j])
+end
+'''

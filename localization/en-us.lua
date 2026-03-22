@@ -12,7 +12,15 @@ return {
 		},
 		-- Blind={},
 		-- Edition={},
-		-- Enhanced={},
+		Enhanced={
+			m_thel_twocards = {
+				name = "Two Cards",
+				text = {
+					"This card counts as",
+					"{C:attention}two{} of itself"
+				}
+			}
+		},
 		Joker = {
 			j_thel_misfortune = {
 				name = "Misfortune",
@@ -321,7 +329,16 @@ return {
 		-- Spectral={},
 		-- Stake={},
 		-- Tag={},
-		-- Tarot={},
+		Tarot={
+			c_thel_lookalike = {
+				name = "The Look-alike",
+				text = {
+					"Enhance {C:attention}#1#{} selected",
+					"card into",
+					"{C:attention}#2#"
+				}
+			}
+		},
 		-- Voucher={},
 	},
 	misc = {
