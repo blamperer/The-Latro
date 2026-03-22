@@ -22,6 +22,7 @@ return {
 			}
 		},
 		Joker = {
+			--region MISCELLANEOUS JOKERS
 			j_thel_misfortune = {
 				name = "Misfortune",
 				text = {
@@ -119,6 +120,7 @@ return {
 					"and {C:blue}score it{} as well",
 				},
 			},
+			--endregion
 			--region ZODIAC JOKERS
 			j_thel_aries = {
 				name = "Aries",
