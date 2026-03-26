@@ -388,8 +388,10 @@ SMODS.Joker({
 					table.insert(eligible_cards, v)
 				end
 			end
+			local any_knapped = false
 			for _, v in ipairs(eligible_cards) do
 				if SMODS.pseudorandom_probability(card, "thel_sagittarius", 1, card.ability.extra.odds, "thel_sagittarius") then
+					any_knapped = true
 					G.E_MANAGER:add_event(Event({
 						func = function()
 							play_sound("tarot1")
@@ -404,18 +406,24 @@ SMODS.Joker({
 							return true
 						end,
 					}))
-					G.E_MANAGER:add_event(Event({
-						func = function()
-							card_eval_status_text(card, "extra", nil, nil, nil, {
-								message = localize("k_knapped_ex"),
-								instant = instant,
-								colour = G.C.BLUE,
-							})
-							return true
-						end,
-					}))
+					-- G.E_MANAGER:add_event(Event({
+					-- 	func = function()
+					-- 		card_eval_status_text(card, "extra", nil, nil, nil, {
+					-- 			message = localize("k_knapped_ex"),
+					-- 			instant = instant,
+					-- 			colour = G.C.BLUE,
+					-- 		})
+					-- 		return true
+					-- 	end,
+					-- }))
 					delay(0.3)
 				end
+			end
+			if any_knapped then
+				return {
+					message = localize("k_knapped_ex"),
+					colour = G.C.BLUE
+				}
 			end
 		end
 		if context.after and context.cardarea == G.jokers then
