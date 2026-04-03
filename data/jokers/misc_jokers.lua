@@ -31,6 +31,7 @@ SMODS.Joker({
 	blueprint_compat = true,
 	eternal_compat = true,
 	perishable_compat = true,
+	attributes = { "xmult", "enhancements" },
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = G.P_CENTERS.m_lucky
 		return { vars = { card.ability.extra.x_mult } }
@@ -56,7 +57,7 @@ SMODS.Joker({
 	config = {
 		extra = {
 			rounds_held = 0,
-			waiting_period = 5,
+			waiting_period = 6,
 			extra_slots = 0,
 		},
 	},
@@ -68,6 +69,7 @@ SMODS.Joker({
 	blueprint_compat = false,
 	eternal_compat = true,
 	perishable_compat = false,
+	attributes = { "joker_slot" },
 	loc_vars = function(self, info_queue, card)
 		return {
 			vars = {
@@ -123,6 +125,7 @@ SMODS.Joker({
 	blueprint_compat = false,
 	eternal_compat = true,
 	perishable_compat = true,
+	attributes = { "chance", "retrigger" },
 	loc_vars = function(self, info_queue, card)
 		return { vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds) } }
 	end,
@@ -158,6 +161,7 @@ SMODS.Joker({
 	blueprint_compat = true,
 	eternal_compat = true,
 	perishable_compat = true,
+	attributes = { "scaling", "chips" },
 	loc_vars = function(self, info_queue, card)
 		return {
 			vars = {
@@ -185,6 +189,7 @@ SMODS.Joker({
 	blueprint_compat = true,
 	eternal_compat = true,
 	perishable_compat = true,
+	attributes = { "modify_card" },
 	calculate = function(self, card, context)
 		if context.after then
 			if #context.full_hand <= 1 then
@@ -229,6 +234,7 @@ SMODS.Joker({
 	blueprint_compat = false,
 	eternal_compat = true,
 	perishable_compat = true,
+	attributes = { "hands", "passive" },
 	loc_vars = function(self, info_queue, card)
 		return {
 			vars = {
@@ -334,11 +340,13 @@ SMODS.Joker({
 	blueprint_compat = true,
 	eternal_compat = true,
 	perishable_compat = true,
+	attributes = { "chips" },
 	calculate = function(self, card, context)
 		if context.joker_main then
 			-- Apparently these are just global? Thanks Paperback
 			local current_chips = hand_chips
-			local current_mult = math.abs(mult) > the_latro.big(1e-9) and mult or the_latro.big(1e-9) -- Divide by 0 prevention
+			local current_mult = math.abs(mult) > the_latro.big(1e-9) and mult or
+				the_latro.big(1e-9) -- Divide by 0 prevention
 			local new_chips = (current_chips * (current_mult + 4)) / current_mult
 			local added_chips = math.floor(new_chips - current_chips)
 			if added_chips >= the_latro.big(1) then
@@ -367,6 +375,7 @@ SMODS.Joker({
 	blueprint_compat = true,
 	eternal_compat = true,
 	perishable_compat = true,
+	attributes = { "rank", "suit", "economy" },
 	loc_vars = function(self, info_queue, card)
 		local indicated_thing = ""
 		local proper_color = G.C.FILTER
@@ -517,6 +526,7 @@ SMODS.Joker({
 	blueprint_compat = true,
 	eternal_compat = true,
 	perishable_compat = true,
+	attributes = { "hand_type", "generation" },
 	calculate = function(self, card, context)
 		if context.before then -- and context.cardarea == G.play then
 			if

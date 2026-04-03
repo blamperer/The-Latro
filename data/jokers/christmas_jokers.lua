@@ -24,6 +24,7 @@ SMODS.Joker {
 	blueprint_compat = true,
 	eternal_compat = true,
 	perishable_compat = true,
+	attributes = { "face", "generation" },
 	loc_vars = function(self, info_queue, card)
 		return {
 			vars = {
@@ -75,6 +76,7 @@ SMODS.Joker {
 	blueprint_compat = true,
 	eternal_compat = true,
 	perishable_compat = true,
+	attributes = { "rank", "jack", "suit", "xmult", "reset" },
 	loc_vars = function(self, info_queue, card)
 		return {
 			vars = {
@@ -177,6 +179,7 @@ SMODS.Joker {
 	blueprint_compat = true,
 	eternal_compat = true,
 	perishable_compat = true,
+	attributes = { "rank", "king", "retrigger" },
 	calculate = function(self, card, context)
 		if context.before then
 			local kings = {}
@@ -235,6 +238,7 @@ SMODS.Joker {
 	blueprint_compat = true,
 	eternal_compat = true,
 	perishable_compat = true,
+	attributes = { "rank", "nine", "queen", "modify_card" },
 	loc_vars = function(self, info_queue, card)
 		return {
 			vars = {
@@ -258,7 +262,8 @@ SMODS.Joker {
 
 		if context.individual and context.cardarea == G.play and card.ability.extra.active then
 			if context.other_card:get_id() == 9 then
-				context.other_card.ability.perma_mult = (context.other_card.ability.perma_mult or 0) + card.ability.extra.mult_gain
+				context.other_card.ability.perma_mult = (context.other_card.ability.perma_mult or 0) +
+					card.ability.extra.mult_gain
 				return {
 					message = localize("k_upgrade_ex"),
 					colour = G.C.MULT,
@@ -266,7 +271,7 @@ SMODS.Joker {
 				}
 			elseif context.other_card:get_id() == 12 then
 				context.other_card.ability.perma_bonus = (context.other_card.ability.perma_bonus or 0) +
-				card.ability.extra.chip_gain
+					card.ability.extra.chip_gain
 				return {
 					message = localize("k_upgrade_ex"),
 					colour = G.C.CHIPS,
@@ -300,6 +305,7 @@ SMODS.Joker({
 	blueprint_compat = true,
 	eternal_compat = true,
 	perishable_compat = false,
+	attributes = { "chips", "reroll", "economy" },
 	loc_vars = function(self, info_queue, card)
 		return {
 			vars = {
@@ -359,6 +365,7 @@ SMODS.Joker({
 	blueprint_compat = true,
 	eternal_compat = true,
 	perishable_compat = true,
+	attributes = { "rank", "seven", "destroy_card" },
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.extra.needed_sevens } }
 	end,
@@ -406,6 +413,7 @@ SMODS.Joker({
 	blueprint_compat = false,
 	eternal_compat = true,
 	perishable_compat = true,
+	attributes = { "rank", "six", "economy", "sell_value" },
 	loc_vars = function(self, info_queue, card)
 		return {
 			vars = {
@@ -456,6 +464,7 @@ SMODS.Joker({
 	blueprint_compat = false,
 	eternal_compat = true,
 	perishable_compat = true,
+	attributes = { "rank", "five", "economy" },
 	calculate = function(self, card, context)
 		if context.end_of_round and not context.blueprint and card.ability.extra.fives_held == 0 then
 			for _, held_card in ipairs(G.hand.cards) do
@@ -484,6 +493,7 @@ SMODS.Joker({
 	blueprint_compat = true,
 	eternal_compat = true,
 	perishable_compat = true,
+	attributes = { "rank", "four", },
 	calculate = function(self, card, context)
 		if context.individual and context.cardarea == G.play then
 			if
@@ -513,6 +523,7 @@ SMODS.Joker {
 	blueprint_compat = true,
 	eternal_compat = true,
 	perishable_compat = true,
+	attributes = { "rank", "three", "mult" },
 	loc_vars = function(self, info_queue, card)
 		return {
 			vars = {
@@ -551,6 +562,7 @@ SMODS.Joker {
 	blueprint_compat = false,
 	eternal_compat = true,
 	perishable_compat = true,
+	attributes = { "hand_type", "modify_card" },
 	loc_vars = function(self, info_queue, card)
 		return {
 			vars = {
@@ -614,6 +626,7 @@ SMODS.Joker({
 	blueprint_compat = true,
 	eternal_compat = true,
 	perishable_compat = true,
+	attributes = { "hand_type", "generation" },
 	loc_vars = function(self, info_queue, card)
 		return {
 			vars = {

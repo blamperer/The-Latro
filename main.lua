@@ -1,6 +1,7 @@
 the_latro = SMODS.current_mod
 the_latro.optional_features = {
 	retrigger_joker = true,
+	object_weights = true
 }
 
 the_latro.reset_game_globals = function(run_start)

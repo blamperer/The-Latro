@@ -25,6 +25,7 @@ SMODS.Joker({
 	blueprint_compat = true,
 	eternal_compat = true,
 	perishable_compat = true,
+	attributes = { "xmult" },
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.extra.x_mult } }
 	end,
@@ -53,6 +54,7 @@ SMODS.Joker({
 	blueprint_compat = true,
 	eternal_compat = true,
 	perishable_compat = false,
+	attributes = { "xmult", "scaling", "economy" },
 	loc_vars = function(self, info_queue, card)
 		return {
 			vars = {
@@ -109,11 +111,14 @@ SMODS.Joker({
 	blueprint_compat = true,
 	eternal_compat = true,
 	perishable_compat = true,
+	attributes = { "hand_type", "chips", "xmult" },
 	loc_vars = function(self, info_queue, card)
-		return { vars = {
-			card.ability.extra.chips,
-			card.ability.extra.x_mult,
-		} }
+		return {
+			vars = {
+				card.ability.extra.chips,
+				card.ability.extra.x_mult,
+			}
+		}
 	end,
 	calculate = function(self, card, context)
 		if context.joker_main and not card.debuff and next(context.poker_hands["Two Pair"]) then
@@ -150,6 +155,7 @@ SMODS.Joker({
 	blueprint_compat = true,
 	eternal_compat = true,
 	perishable_compat = false,
+	attributes = { "enhancements", "scaling", "reset", "mult" },
 	enhancement_gate = "m_glass",
 	calculate = function(self, card, context)
 		if context.individual and context.cardarea == G.play then
@@ -204,6 +210,7 @@ SMODS.Joker({
 	atlas = "zodiac_jokers",
 	pos = { x = 4, y = 0 },
 	discovered = true,
+	attributes = { "enhancements", "chips" },
 	enhancement_gate = "m_lucky",
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = G.P_CENTERS.m_lucky
@@ -240,6 +247,7 @@ SMODS.Joker({
 	blueprint_compat = true,
 	eternal_compat = true,
 	perishable_compat = true,
+	attributes = { "rank", "queen", "xmult" },
 	calculate = function(self, card, context)
 		if context.individual and context.cardarea == G.play then
 			if context.other_card:get_id() == 12 and not context.other_card.debuff then
@@ -269,6 +277,7 @@ SMODS.Joker({
 	blueprint_compat = true,
 	eternal_compat = true,
 	perishable_compat = true,
+	attributes = { "suit", "chips", "mult" },
 	calculate = function(self, card, context)
 		if context.joker_main then
 			local suits = {}
@@ -307,10 +316,11 @@ SMODS.Joker({
 	blueprint_compat = true,
 	eternal_compat = true,
 	perishable_compat = true,
+	attributes = { "chance", "seals", },
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = G.P_SEALS["Gold"]
 		return {
-			vars = {SMODS.get_probability_vars(card, 1, card.ability.extra.odds)}
+			vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds) }
 		}
 	end,
 	calculate = function(self, card, context)
@@ -369,6 +379,7 @@ SMODS.Joker({
 	blueprint_compat = true,
 	eternal_compat = true,
 	perishable_compat = true,
+	attributes = { "suit", "spades", "modify_card", "chance", "editions" },
 	loc_vars = function(self, info_queue, card)
 		return {
 			vars = {
@@ -406,16 +417,6 @@ SMODS.Joker({
 							return true
 						end,
 					}))
-					-- G.E_MANAGER:add_event(Event({
-					-- 	func = function()
-					-- 		card_eval_status_text(card, "extra", nil, nil, nil, {
-					-- 			message = localize("k_knapped_ex"),
-					-- 			instant = instant,
-					-- 			colour = G.C.BLUE,
-					-- 		})
-					-- 		return true
-					-- 	end,
-					-- }))
 					delay(0.3)
 				end
 			end
@@ -451,6 +452,7 @@ SMODS.Joker({
 	blueprint_compat = true,
 	eternal_compat = true,
 	perishable_compat = true,
+	attributes = { "enhancements", "retrigger" },
 	enhancement_gate = "m_stone",
 	calculate = function(self, card, context)
 		if context.repetition and not context.repetition_only and context.cardarea == G.play then
@@ -486,6 +488,7 @@ SMODS.Joker({
 	blueprint_compat = true,
 	eternal_compat = true,
 	perishable_compat = false,
+	attributes = { "enhancements", "scaling", "chips" },
 	enhancement_gate = "m_bonus",
 	calculate = function(self, card, context)
 		if context.joker_main and card.ability.extra.chips > 0 then
@@ -494,12 +497,6 @@ SMODS.Joker({
 			}
 		elseif context.individual and context.cardarea == G.play and not context.blueprint then
 			if context.other_card.config.center_key == "m_bonus" and not context.other_card.debuff then
-				-- card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chips_gain
-				-- return {
-				-- 	--message = localize { type = "variable", key = "a_chips", vars = { card.ability.extra.chips }}
-				-- 	message = localize("k_upgrade_ex"),
-				-- 	colour = G.C.CHIPS,
-				-- }
 				SMODS.scale_card(card, {
 					ref_table = card.ability.extra,
 					ref_value = "chips",
@@ -532,6 +529,7 @@ SMODS.Joker({
 	blueprint_compat = true,
 	eternal_compat = true,
 	perishable_compat = false,
+	attributes = { "chips", "scaling", "tags" },
 	calculate = function(self, card, context)
 		if context.joker_main and card.ability.extra.plus_chips > 0 then
 			return { chips = card.ability.extra.plus_chips }
