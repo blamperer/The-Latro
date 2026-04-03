@@ -48,23 +48,46 @@ SMODS.Back({
 			sendInfoMessage("Wow! You've used every discovered Joker for this stake! Choosing randomly!", "The Latro")
 			-- For some reason, it really didn't like me just plugging G.P_CENTER_POOLS["Joker"] in here, so we use a new list
 			your_free_joker, idx = pseudorandom_element(all_jokers)
-			-- your_free_joker = SMODS.poll_object {
-			-- 	type = "Joker",
-			-- 	rarity = false,
-			-- 	allow_legendaries = true,
-			-- 	guaranteed = true,
-			-- 	seed = "fully_completed",
-			-- 	print = true
-			-- }
+			-- G.E_MANAGER:add_event(Event({
+			-- 	func = function()
+			-- 		your_free_joker = SMODS.poll_object {
+			-- 			type = "Joker",
+			-- 			rarity = false,
+			-- 			allow_legendaries = true,
+			-- 			guaranteed = true,
+			-- 			seed = "fully_completed",
+			-- 			print = true
+			-- 		}
+			-- 		return true
+			-- 	end
+			-- }))
+			-- G.E_MANAGER:add_event(Event({
+			-- 	func = function()
+			-- 		SMODS.add_card({
+			-- 			set = "Joker",
+			-- 			area = G.jokers,
+			-- 			key = your_free_joker,
+			-- 			edition = "e_negative",
+			-- 			stickers = {
+			-- 				"eternal",
+			-- 			},
+			-- 			force_stickers = true
+			-- 		})
+			-- 		return true
+			-- 	end,
+			-- }))
+			-- return
 		end
 
-		if type(your_free_joker) == "table" then
-			your_free_joker = your_free_joker.key
+		if your_free_joker and idx then
+			if type(your_free_joker) == "table" then
+				your_free_joker = your_free_joker.key
+			end
+			your_free_joker = tostring(your_free_joker) -- satisfy the parser
+			local joker_name = (not string.find(your_free_joker, "^j_")) and G.P_CENTERS[your_free_joker].name
+				or localize({ type = "name_text", set = "Joker", key = your_free_joker })
+			sendInfoMessage("Chose Joker #" .. idx .. ": " .. joker_name .. "!", "The Latro")
 		end
-		your_free_joker = tostring(your_free_joker) -- satisfy the parser
-		local joker_name = (not string.find(your_free_joker, "^j_")) and G.P_CENTERS[your_free_joker].name
-			or localize({ type = "name_text", set = "Joker", key = your_free_joker })
-		sendInfoMessage("Chose Joker #" .. idx .. ": " .. joker_name .. "!", "The Latro")
 
 		G.E_MANAGER:add_event(Event({
 			func = function()
