@@ -12,7 +12,7 @@ return {
 		},
 		-- Blind={},
 		-- Edition={},
-		Enhanced={
+		Enhanced = {
 			m_thel_twocards = {
 				name = "Two Cards",
 				text = {
@@ -331,7 +331,7 @@ return {
 		-- Spectral={},
 		-- Stake={},
 		-- Tag={},
-		Tarot={
+		Tarot = {
 			c_thel_lookalike = {
 				name = "The Look-alike",
 				text = {
@@ -339,7 +339,7 @@ return {
 					"card into",
 					"{C:attention}#2#"
 				}
-			}
+			},
 		},
 		-- Voucher={},
 	},
