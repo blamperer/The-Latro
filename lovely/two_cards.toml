@@ -4,57 +4,34 @@ dump_lua = true
 priority = 0
 
 # TWO CARDS
-## Patch get_X_same to work with Two Cards
 [[patches]]
 [patches.pattern]
-target = "functions/misc_functions.lua"
-pattern = "table.insert(curr, hand[i])"
+target = '''=[SMODS _ "src/overrides.lua"]'''
+pattern = "local parts = {}"
 position = "after"
 match_indent = true
 payload = '''
--- The Latro: Two Cards check
-if SMODS.has_enhancement(hand[i], "m_thel_twocards") then
-    table.insert(curr, hand[i])
-end
-'''
-
-[[patches]]
-[patches.pattern]
-target = "functions/misc_functions.lua"
-pattern = "table.insert(curr, hand[j])"
-position = "after"
-match_indent = true
-payload = '''
--- The Latro: Two Cards check
-if SMODS.has_enhancement(hand[j], "m_thel_twocards") then
-    table.insert(curr, hand[j])
-end
-'''
-
-##  Patch get_flush as well
-### TODO: make the suit count a function and test with other mods
-### I worry about patching over this conditional line. I feel like this might mess with other mods.
-[[patches]]
-[patches.pattern]
-target = "functions/misc_functions.lua"
-pattern = "if #hand < four_fingers then return ret else"
-position = "at"
-match_indent = true
-payload = "if (#hand + the_latro.enhancement_count(hand, 'm_thel_twocards')) < four_fingers then return ret else"
-
-[[patches]]
-[patches.pattern]
-target = "functions/misc_functions.lua"
-pattern = "if hand[i]:is_suit(suit, nil, true) then flush_count = flush_count + 1;  t[#t+1] = hand[i] end"
-position = "at"
-match_indent = true
-payload = '''
--- The Latro: Two Cards check
-if hand[i]:is_suit(suit, nil, true) then
-    local suit_count = SMODS.has_enhancement(hand[i], "m_thel_twocards") and 2 or 1
-    flush_count = flush_count + suit_count
-    for s=1, suit_count do
-        t[#t+1] = hand[i]
+local hand_copy = {}
+for i,_ in ipairs(hand) do
+    hand_copy[#hand_copy + 1] = hand[i]
+    if SMODS.has_enhancement(hand[i], "m_thel_twocards") then
+        hand_copy[#hand_copy + 1] = hand[i]
     end
 end
 '''
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/overrides.lua"]'''
+pattern = "parts[v] = SMODS.PokerHandParts[v].func(hand) or {}"
+position = "at"
+match_indent = true
+payload = "parts[v] = SMODS.PokerHandParts[v].func(hand_copy) or {}"
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/overrides.lua"]'''
+pattern = "results[k] = _hand.evaluate(parts, hand) or {}"
+position = "at"
+match_indent = true
+payload = "results[k] = _hand.evaluate(parts, hand_copy) or {}"
