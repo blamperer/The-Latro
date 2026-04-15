@@ -39,11 +39,11 @@ SMODS.Back({
 
 		local your_free_joker, idx
 		if #preferable_jokers > 0 then
-			your_free_joker, idx = pseudorandom_element(preferable_jokers, pseudoseed("completionist"))
+			your_free_joker, idx = pseudorandom_element(preferable_jokers)--, pseudoseed("completionist"))
 		elseif #unpreferable_jokers > 0 then
-			your_free_joker, idx = pseudorandom_element(unpreferable_jokers, pseudoseed("completionist"))
+			your_free_joker, idx = pseudorandom_element(unpreferable_jokers)--, pseudoseed("completionist"))
 		elseif #very_unpreferable_jokers > 0 then
-			your_free_joker, idx = pseudorandom_element(very_unpreferable_jokers, pseudoseed("completionist"))
+			your_free_joker, idx = pseudorandom_element(very_unpreferable_jokers)--, pseudoseed("completionist"))
 		else
 			sendInfoMessage("Wow! You've used every discovered Joker for this stake! Choosing randomly!", "The Latro")
 			-- For some reason, it really didn't like me just plugging G.P_CENTER_POOLS["Joker"] in here, so we use a new list
