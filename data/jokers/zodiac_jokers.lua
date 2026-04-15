@@ -529,7 +529,7 @@ SMODS.Joker({
 	blueprint_compat = true,
 	eternal_compat = true,
 	perishable_compat = false,
-	attributes = { "chips", "scaling", "tags" },
+	attributes = { "chips", "scaling", "tag" },
 	calculate = function(self, card, context)
 		if context.joker_main and card.ability.extra.plus_chips > 0 then
 			return { chips = card.ability.extra.plus_chips }

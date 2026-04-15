@@ -12,14 +12,6 @@ local JOKER_FILES = {
 	"christmas_jokers"
 }
 
--- Joker attributes
-SMODS.Attribute {
-	key = "tags"
-}
-SMODS.Attribute {
-	key = "editions"
-}
-
 for _, file_name in ipairs(JOKER_FILES) do
 	local func, err = SMODS.load_file("data/jokers/" .. file_name .. ".lua")
 	if err then
