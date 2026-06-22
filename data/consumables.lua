@@ -75,7 +75,7 @@ SMODS.Enhancement {
     atlas = "the_hancements",
     pos = { x = 0, y = 0 },
     calculate = function(self, card, context)
-        if context.cardarea == G.play and context.repetition then
+        if (context.cardarea == G.play or context.cardarea == G.hand) and context.repetition then
             return { repetitions = 1, card = card, remove_default_message = true }
         end
     end
