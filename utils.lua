@@ -109,7 +109,6 @@ function the_latro.enhancement_count(cards, enh)
 end
 
 -- Yoink these straight from the base game
-
 function the_latro.flip_cards(cards)
 	if not type(cards) == "table" then
 		cards = { cards }
