@@ -110,39 +110,39 @@ SMODS.Joker({
 })
 
 -- Terminal
-SMODS.Joker({
-	key = "terminal",
-	config = {
-		extra = {
-			odds = 10,
-		},
-	},
-	rarity = 1,
-	cost = 5,
-	atlas = "the_jokers",
-	pos = { x = 3, y = 0 },
-	discovered = true,
-	blueprint_compat = false,
-	eternal_compat = true,
-	perishable_compat = true,
-	attributes = { "chance", "retrigger" },
-	loc_vars = function(self, info_queue, card)
-		return { vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds) } }
-	end,
-	calculate = function(self, card, context)
-		if context.retrigger_joker_check and not context.retrigger_joker and context.other_card ~= self then
-			if SMODS.pseudorandom_probability(card, "terminal", 1, card.ability.extra.odds, "terminal") then
-				return {
-					message = localize("k_again_ex"),
-					repetitions = 1,
-					card = self,
-				}
-			else
-				return nil, true
-			end
-		end
-	end,
-})
+-- SMODS.Joker({
+-- 	key = "terminal",
+-- 	config = {
+-- 		extra = {
+-- 			odds = 10,
+-- 		},
+-- 	},
+-- 	rarity = 1,
+-- 	cost = 5,
+-- 	atlas = "the_jokers",
+-- 	pos = { x = 3, y = 0 },
+-- 	discovered = true,
+-- 	blueprint_compat = false,
+-- 	eternal_compat = true,
+-- 	perishable_compat = true,
+-- 	attributes = { "chance", "retrigger" },
+-- 	loc_vars = function(self, info_queue, card)
+-- 		return { vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds) } }
+-- 	end,
+-- 	calculate = function(self, card, context)
+-- 		if context.retrigger_joker_check and not context.retrigger_joker and context.other_card ~= self then
+-- 			if SMODS.pseudorandom_probability(card, "terminal", 1, card.ability.extra.odds, "terminal") then
+-- 				return {
+-- 					message = localize("k_again_ex"),
+-- 					repetitions = 1,
+-- 					card = self,
+-- 				}
+-- 			else
+-- 				return nil, true
+-- 			end
+-- 		end
+-- 	end,
+-- })
 
 -- Chipfinity
 SMODS.Joker({
