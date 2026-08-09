@@ -1,6 +1,6 @@
 the_latro = SMODS.current_mod
 the_latro.optional_features = {
-	retrigger_joker = true,
+	-- retrigger_joker = true,
 	object_weights = true
 }
 
