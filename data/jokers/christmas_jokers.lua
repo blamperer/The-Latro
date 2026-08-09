@@ -501,7 +501,7 @@ SMODS.Joker({
 				and SMODS.in_scoring(context.other_card, context.scoring_hand)
 				and not context.other_card.debuff
 			then
-				draw_card(G.deck, G.hand)
+				SMODS.draw_cards(1)
 			end
 		end
 	end,
@@ -626,7 +626,7 @@ SMODS.Joker({
 	blueprint_compat = true,
 	eternal_compat = true,
 	perishable_compat = true,
-	attributes = { "hand_type", "generation" },
+	attributes = { "hand_type", "generation", "tarot", "planet", "spectral" },
 	loc_vars = function(self, info_queue, card)
 		return {
 			vars = {
