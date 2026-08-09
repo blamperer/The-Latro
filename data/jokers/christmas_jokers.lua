@@ -24,7 +24,7 @@ SMODS.Joker {
 	blueprint_compat = true,
 	eternal_compat = true,
 	perishable_compat = true,
-	attributes = { "face", "generation" },
+	attributes = { "face", "generation", "tarot" },
 	loc_vars = function(self, info_queue, card)
 		return {
 			vars = {
@@ -202,7 +202,7 @@ SMODS.Joker {
 			and card.ability.extra.active
 		then
 			local card_idx = -1
-			for i, v in pairs(context.scoring_hand) do
+			for i, v in ipairs(context.scoring_hand) do
 				if context.other_card.ID == v.ID then
 					card_idx = i
 					break
@@ -472,7 +472,7 @@ SMODS.Joker({
 					card.ability.extra.fives_held = card.ability.extra.fives_held + 1
 				end
 			end
-			-- print(card.ability.extra.fives_held)
+			-- TODO: See if you can find the $5/interest in the code somewhere instead of hardcoding this
 			G.GAME.interest_cap = G.GAME.interest_cap + (5 * card.ability.extra.fives_held)
 		end
 		if context.starting_shop and not context.blueprint then
